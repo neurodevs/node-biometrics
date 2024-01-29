@@ -65,5 +65,9 @@
     "moduleNameMapper": {
       "^#spruce/(.*)$": "<rootDir>/build/.spruce/$1"
     }
+  },
+  "dependencies": {
+    "@neurodevs/node-server-plots": "^0.1.0",
+    "sharp": "^0.33.2"
   }
 }
