@@ -1,3 +1,3 @@
 import { SubplotGrapher } from '@neurodevs/node-server-plots'
 
-export class PpgPeakDetectionGrapher extends SubplotGrapher {}
+export default class PpgPeakDetectionGrapher extends SubplotGrapher {}
