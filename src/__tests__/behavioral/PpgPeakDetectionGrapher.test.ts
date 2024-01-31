@@ -1,23 +1,22 @@
-import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
-import {
-	FakeChartJSNodeCanvas,
-	SubplotGrapher,
-	fakeSharp,
-} from '@neurodevs/node-server-plots'
+import AbstractSpruceTest, {
+	test,
+	assert,
+	generateId,
+} from '@sprucelabs/test-utils'
+import { FakeSubplotGrapher } from '@neurodevs/node-server-plots'
 import PpgPeakDetectionGrapher from '../../PpgPeakDetectionGrapher'
 import { PpgPeakDetectorResults } from '../../types/nodeBiometrics.types'
 
 export default class PpgPeakDetectionGrapherTest extends AbstractSpruceTest {
 	private static grapher: PpgPeakDetectionGrapher
+	private static savePath: string
 	private static signals: PpgPeakDetectorResults
 	private static dataLength: number
 
 	protected static async beforeEach() {
 		await super.beforeEach()
 
-		SubplotGrapher.CanvasClass = FakeChartJSNodeCanvas
-		SubplotGrapher.sharp = fakeSharp
-
+		this.savePath = generateId()
 		this.dataLength = 4
 
 		this.signals = {
@@ -38,23 +37,24 @@ export default class PpgPeakDetectionGrapherTest extends AbstractSpruceTest {
 	}
 
 	@test()
-	protected static async extendsSubplotGrapher() {
-		assert.isInstanceOf(this.grapher, SubplotGrapher)
+	protected static async canSetAndGetSubplotGrapher() {
+		PpgPeakDetectionGrapher.GrapherClass = FakeSubplotGrapher
+		assert.isEqualDeep(PpgPeakDetectionGrapher.GrapherClass, FakeSubplotGrapher)
 	}
 
 	@test()
-	protected static async generatesExpectedPlotConfigs() {}
+	protected static async callsSubplotGrapherWithRequiredOptions() {
+		await this.run()
 
-	private static Grapher() {
-		return new PpgPeakDetectionGrapher({
+		assert.isEqualDeep(FakeSubplotGrapher.constructorCalledWith[0], {
 			subplotHeight: 300,
 			subplotWidth: 800,
 		})
-	}
 
-	@test()
-	protected static async createsExpectedPlotConfigs() {
-		assert.isTruthy(this.plotConfigs)
+		assert.isEqualDeep(FakeSubplotGrapher.generateCalledWith[0], {
+			savePath: this.savePath,
+			plotConfigs: this.plotConfigs,
+		})
 	}
 
 	private static generateRandomArray(length: number) {
@@ -110,5 +110,13 @@ export default class PpgPeakDetectionGrapherTest extends AbstractSpruceTest {
 				],
 			},
 		]
+	}
+
+	private static async run() {
+		await this.grapher.run(this.savePath, this.signals)
+	}
+
+	private static Grapher() {
+		return new PpgPeakDetectionGrapher()
 	}
 }

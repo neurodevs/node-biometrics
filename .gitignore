@@ -46,3 +46,6 @@ tmp/
 
 yarn.lock
 package-lock.json
+
+# Ignore generated plot files
+*.plot.png

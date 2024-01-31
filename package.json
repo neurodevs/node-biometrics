@@ -67,7 +67,7 @@
     }
   },
   "dependencies": {
-    "@neurodevs/node-server-plots": "^0.1.4",
+    "@neurodevs/node-server-plots": "^0.1.7",
     "@neurodevs/node-signal-processing": "^0.3.3",
     "fast-csv": "^5.0.0",
     "sharp": "^0.33.2"

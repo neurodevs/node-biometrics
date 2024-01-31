@@ -29,7 +29,7 @@ export interface PpgAnalyzerOptions {
 export type PpgAnalyzerClass = new (options: PpgAnalyzerOptions) => PpgAnalyzer
 
 export interface PpgAnalyzerResults {
-	signals: PeakDetectorResults
+	signals: PpgPeakDetectorResults
 	metrics: PpgMetrics
 }
 
