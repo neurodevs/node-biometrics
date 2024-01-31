@@ -1,6 +1,6 @@
 // Production code
 
-export { default as PpgAnalyzer } from './PpgAnalyzer'
+export { default as PpgAnalyzerImpl } from './PpgAnalyzer'
 export * from './PpgAnalyzer'
 
 export { default as PpgPeakDetector } from './PpgPeakDetector'
