@@ -1,5 +1,5 @@
 {
-  "name": "node-biometrics",
+  "name": "@neurodevs/node-biometrics",
   "version": "0.0.1",
   "main": "build/index.js",
   "repository": "https://github.com/neurodevs/node-biometrics.git",
