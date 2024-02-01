@@ -37,12 +37,6 @@ export default class PpgPeakDetectionGrapherTest extends AbstractSpruceTest {
 	}
 
 	@test()
-	protected static async canSetAndGetSubplotGrapher() {
-		PpgPeakDetectionGrapher.GrapherClass = FakeSubplotGrapher
-		assert.isEqualDeep(PpgPeakDetectionGrapher.GrapherClass, FakeSubplotGrapher)
-	}
-
-	@test()
 	protected static async callsSubplotGrapherWithRequiredOptions() {
 		await this.run()
 

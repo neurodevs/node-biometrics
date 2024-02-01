@@ -13,16 +13,8 @@ export default class PpgPeakDetector extends HilbertPeakDetector {
 	protected numTaps: number
 	protected attenuation: number
 
+	public static FilterClass: FirBandpassFilterClass = FirBandpassFilter
 	protected filter: FirBandpassFilter
-	private static FilterClass: FirBandpassFilterClass = FirBandpassFilter
-
-	public static setFilterClass(Class: FirBandpassFilterClass): void {
-		PpgPeakDetector.FilterClass = Class
-	}
-
-	public static getFilterClass(): FirBandpassFilterClass {
-		return PpgPeakDetector.FilterClass
-	}
 
 	public constructor(options: PpgPeakDetectorOptions) {
 		super()

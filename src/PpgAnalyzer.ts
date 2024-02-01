@@ -11,16 +11,9 @@ import {
 export default class PpgAnalyzerImpl implements PpgAnalyzer {
 	protected sampleRate: number
 	protected ignoreRrIntervalThreshold: number
+
+	public static DetectorClass: PpgPeakDetectorClass = PpgPeakDetector
 	protected detector: PpgPeakDetector
-	private static DetectorClass: PpgPeakDetectorClass = PpgPeakDetector
-
-	public static setDetectorClass(Class: PpgPeakDetectorClass): void {
-		PpgAnalyzerImpl.DetectorClass = Class
-	}
-
-	public static getDetectorClass(): PpgPeakDetectorClass {
-		return PpgAnalyzerImpl.DetectorClass
-	}
 
 	public constructor(options: PpgAnalyzerOptions) {
 		const { sampleRate, ignoreRrIntervalThreshold = 25 } = assertOptions(

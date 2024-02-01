@@ -15,7 +15,7 @@ export default class PpgAnalyzerTest extends AbstractSpruceTest {
 	private static options: PpgAnalyzerOptions
 
 	protected static async beforeEach() {
-		PpgAnalyzerImpl.setDetectorClass(SpyPpgPeakDetector)
+		PpgAnalyzerImpl.DetectorClass = SpyPpgPeakDetector
 		this.options = this.generateRandomOptions()
 		this.analyzer = this.Analyzer(this.options)
 	}
@@ -28,12 +28,6 @@ export default class PpgAnalyzerTest extends AbstractSpruceTest {
 			...defaultOptions,
 			...options,
 		})
-	}
-
-	@test()
-	protected static canSetAndGetDetectorInstance() {
-		PpgAnalyzerImpl.setDetectorClass(SpyPpgPeakDetector)
-		assert.isEqual(PpgAnalyzerImpl.getDetectorClass(), SpyPpgPeakDetector)
 	}
 
 	@test()

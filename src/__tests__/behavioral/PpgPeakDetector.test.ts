@@ -20,7 +20,7 @@ export default class PpgPeakDetectorTest extends AbstractSpruceTest {
 	private static timestamps: number[]
 
 	protected static async beforeEach() {
-		SpyPpgPeakDetector.setFilterClass(SpyFirBandpassFilter)
+		SpyPpgPeakDetector.FilterClass = SpyFirBandpassFilter
 		SpyFirBandpassFilter.clear()
 
 		this.randomOptions = this.generateRandomOptions()
@@ -33,12 +33,6 @@ export default class PpgPeakDetectorTest extends AbstractSpruceTest {
 	@test()
 	protected static async extendsHilbertPeakDetector() {
 		assert.isInstanceOf(this.randomDetector, HilbertPeakDetector)
-	}
-
-	@test()
-	protected static canSetAndGetFilterInstance() {
-		PpgPeakDetector.setFilterClass(SpyFirBandpassFilter)
-		assert.isEqual(PpgPeakDetector.getFilterClass(), SpyFirBandpassFilter)
 	}
 
 	@test()
