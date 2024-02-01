@@ -3,10 +3,13 @@ import {
 	HilbertPeakDetector,
 	FirBandpassFilter,
 	FirBandpassFilterClass,
+	HilbertPeakDetectorClass,
+	PeakDetector,
+	Filter,
 } from '@neurodevs/node-signal-processing'
 import { PpgPeakDetectorOptions } from './types/nodeBiometrics.types'
 
-export default class PpgPeakDetector extends HilbertPeakDetector {
+export default class PpgPeakDetector {
 	protected sampleRate: number
 	protected lowCutoffHz: number
 	protected highCutoffHz: number
@@ -14,10 +17,12 @@ export default class PpgPeakDetector extends HilbertPeakDetector {
 	protected attenuation: number
 
 	public static FilterClass: FirBandpassFilterClass = FirBandpassFilter
-	protected filter: FirBandpassFilter
+	private filter: Filter
+
+	public static DetectorClass: HilbertPeakDetectorClass = HilbertPeakDetector
+	private detector: PeakDetector
 
 	public constructor(options: PpgPeakDetectorOptions) {
-		super()
 		let {
 			sampleRate,
 			lowCutoffHz = 0.4,
@@ -43,11 +48,13 @@ export default class PpgPeakDetector extends HilbertPeakDetector {
 			numTaps,
 			attenuation,
 		})
+
+		this.detector = new PpgPeakDetector.DetectorClass()
 	}
 
 	public run(rawData: number[], timestamps: number[]) {
 		const filtered = this.filter.run(rawData)
-		const result = super.run(filtered, timestamps)
+		const result = this.detector.run(filtered, timestamps)
 		return {
 			...result,
 			rawData,

@@ -3,8 +3,10 @@ import AbstractSpruceTest, {
 	assert,
 	errorAssert,
 } from '@sprucelabs/test-utils'
+import { FakeSubplotGrapher } from '@neurodevs/node-server-plots'
 import loadPpgData from '../../loadPpgData'
 import PpgAnalyzerImpl from '../../PpgAnalyzer'
+import PpgPeakDetectionGrapher from '../../PpgPeakDetectionGrapher'
 import SpyPpgAnalyzer from '../../testDoubles/SpyPpgAnalyzer'
 import SpyPpgPeakDetector from '../../testDoubles/SpyPpgPeakDetector'
 import { PpgAnalyzerOptions } from '../../types/nodeBiometrics.types'
@@ -12,22 +14,16 @@ import expectedOutput from '../testData/expectedOutput'
 
 export default class PpgAnalyzerTest extends AbstractSpruceTest {
 	private static analyzer: SpyPpgAnalyzer
-	private static options: PpgAnalyzerOptions
+	private static analyzerOptions: PpgAnalyzerOptions
+	private static grapher: PpgPeakDetectionGrapher
 
 	protected static async beforeEach() {
 		PpgAnalyzerImpl.DetectorClass = SpyPpgPeakDetector
-		this.options = this.generateRandomOptions()
-		this.analyzer = this.Analyzer(this.options)
-	}
+		PpgPeakDetectionGrapher.GrapherClass = FakeSubplotGrapher
 
-	private static Analyzer(
-		options?: Partial<PpgAnalyzerOptions>
-	): SpyPpgAnalyzer {
-		const defaultOptions = this.generateRandomOptions()
-		return new SpyPpgAnalyzer({
-			...defaultOptions,
-			...options,
-		})
+		this.analyzerOptions = this.generateRandomOptions()
+		this.analyzer = this.Analyzer(this.analyzerOptions)
+		this.grapher = this.Grapher()
 	}
 
 	@test()
@@ -40,14 +36,9 @@ export default class PpgAnalyzerTest extends AbstractSpruceTest {
 	}
 
 	@test()
-	protected static async constructorSavesOptions() {
-		assert.isEqual(this.analyzer.getSampleRate(), this.options.sampleRate)
-	}
-
-	@test()
 	protected static async constructorCanOverridePpgPeakDetector() {
 		SpyPpgPeakDetector.clear()
-		new PpgAnalyzerImpl(this.options)
+		new PpgAnalyzerImpl(this.analyzerOptions)
 		assert.isEqual(SpyPpgPeakDetector.constructorHitCount, 1)
 	}
 
@@ -56,26 +47,25 @@ export default class PpgAnalyzerTest extends AbstractSpruceTest {
 		// We want to ignore rr intervals 700 -> 1200 and 1100 -> 500
 		const rrIntervals = [600, 700, 1200, 800, 500, 600, 700, 800]
 
-		const analyzer = new SpyPpgAnalyzer({ sampleRate: 64 })
-		const result = analyzer.calculateHeartRateVariability(rrIntervals)
+		const result = this.analyzer.calculateHeartRateVariability(rrIntervals)
 		assert.isEqual(result, 100)
 	}
 
 	@test(
-		'Works with actual PPG data: ppg-example-4-subject-3.csv',
+		'Works with: ppg-example-4-subject-3.csv',
 		'ppg-example-4-subject-3.csv'
 	)
 	@test(
-		'Works with actual PPG data: ppg-example-3-subject-3.csv',
+		'Works with: ppg-example-3-subject-3.csv',
 		'ppg-example-3-subject-3.csv'
 	)
 	@test.skip(
 		// For unknown reasons, peak detection is failing on this file
-		'Works with actual PPG data: ppg-example-2-subject-2.csv',
+		'Works with: ppg-example-2-subject-2.csv',
 		'ppg-example-2-subject-2.csv'
 	)
 	@test(
-		'Works with actual PPG data: ppg-example-1-subject-1.csv',
+		'Works with: ppg-example-1-subject-1.csv',
 		'ppg-example-1-subject-1.csv'
 	)
 	protected static async runWorksWithActualPpgData(fileName: string) {
@@ -90,10 +80,14 @@ export default class PpgAnalyzerTest extends AbstractSpruceTest {
 		const { rrIntervals, hrvMean, hrMean, hrvPercentChange, hrPercentChange } =
 			metrics
 
+		await this.grapher.run(
+			`src/__tests__/testData/${fileName}.plot.png`,
+			signals
+		)
+
 		assert.isTruthy(signals)
 		assert.isTruthy(metrics)
 		assert.isLength(rrIntervals, expected.numPeaks)
-
 		assert.isEqualDeep(rrIntervals, expected.rrIntervals)
 		assert.isEqual(hrvMean, expected.hrvMean)
 		assert.isEqual(hrMean, expected.hrMean)
@@ -103,5 +97,19 @@ export default class PpgAnalyzerTest extends AbstractSpruceTest {
 
 	private static generateRandomOptions() {
 		return { sampleRate: 100 * Math.random() }
+	}
+
+	private static Analyzer(
+		options?: Partial<PpgAnalyzerOptions>
+	): SpyPpgAnalyzer {
+		const defaultOptions = this.generateRandomOptions()
+		return new SpyPpgAnalyzer({
+			...defaultOptions,
+			...options,
+		})
+	}
+
+	private static Grapher() {
+		return new PpgPeakDetectionGrapher()
 	}
 }

@@ -16,7 +16,9 @@ export default class PpgPeakDetectionGrapherTest extends AbstractSpruceTest {
 	protected static async beforeEach() {
 		await super.beforeEach()
 
-		this.savePath = generateId()
+		PpgPeakDetectionGrapher.GrapherClass = FakeSubplotGrapher
+
+		this.savePath = `${generateId()}.plot.png`
 		this.dataLength = 4
 
 		this.signals = {

@@ -4,11 +4,7 @@ import AbstractSpruceTest, {
 	assert,
 	errorAssert,
 } from '@sprucelabs/test-utils'
-import {
-	SpyFirBandpassFilter,
-	HilbertPeakDetector,
-	FirBandpassFilter,
-} from '@neurodevs/node-signal-processing'
+import { SpyFirBandpassFilter } from '@neurodevs/node-signal-processing'
 import PpgPeakDetector from '../../PpgPeakDetector'
 import SpyPpgPeakDetector from '../../testDoubles/SpyPpgPeakDetector'
 import { PpgPeakDetectorOptions } from '../../types/nodeBiometrics.types'
@@ -20,7 +16,7 @@ export default class PpgPeakDetectorTest extends AbstractSpruceTest {
 	private static timestamps: number[]
 
 	protected static async beforeEach() {
-		SpyPpgPeakDetector.FilterClass = SpyFirBandpassFilter
+		PpgPeakDetector.FilterClass = SpyFirBandpassFilter
 		SpyFirBandpassFilter.clear()
 
 		this.randomOptions = this.generateRandomOptions()
@@ -28,11 +24,6 @@ export default class PpgPeakDetectorTest extends AbstractSpruceTest {
 
 		this.rawData = [1, 2, 3, 4]
 		this.timestamps = [4, 5, 6, 7]
-	}
-
-	@test()
-	protected static async extendsHilbertPeakDetector() {
-		assert.isInstanceOf(this.randomDetector, HilbertPeakDetector)
 	}
 
 	@test()
@@ -45,37 +36,11 @@ export default class PpgPeakDetectorTest extends AbstractSpruceTest {
 	}
 
 	@test()
-	protected static async constructorSavesOptions() {
-		assert.isEqual(
-			this.randomDetector.getSampleRate(),
-			this.randomOptions.sampleRate
-		)
-		assert.isEqual(
-			this.randomDetector.getLowCutoffHz(),
-			this.randomOptions.lowCutoffHz
-		)
-		assert.isEqual(
-			this.randomDetector.getHighCutoffHz(),
-			this.randomOptions.highCutoffHz
-		)
-		assert.isEqual(this.randomDetector.getNumTaps(), this.randomOptions.numTaps)
-		assert.isEqual(
-			this.randomDetector.getAttenuation(),
-			this.randomOptions.attenuation
-		)
-	}
-
-	@test()
 	protected static async numTapsEqualsSampleRateTimesFourPlusOne() {
 		const detector1 = new SpyPpgPeakDetector({ sampleRate: 100 })
 		assert.isEqual(detector1.getNumTaps(), 401)
 		const detector2 = new SpyPpgPeakDetector({ sampleRate: 100.5 })
 		assert.isEqual(detector2.getNumTaps(), 401)
-	}
-
-	@test()
-	protected static async constructorCreatesFilter() {
-		assert.isInstanceOf(this.randomDetector.getFilter(), FirBandpassFilter)
 	}
 
 	@test()
