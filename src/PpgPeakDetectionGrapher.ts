@@ -72,8 +72,10 @@ export default class PpgPeakDetectionGrapher {
 			timestamps,
 		} = signals
 
+		const minTimestamp = Math.min(...timestamps)
+
 		const normalizedTimestamps = timestamps.map(
-			(timestamp) => (timestamp - timestamps[0]) / 1000
+			(timestamp) => (timestamp - minTimestamp) / 1000
 		)
 
 		const rawDataFormatted = this.formatData(rawData, normalizedTimestamps)

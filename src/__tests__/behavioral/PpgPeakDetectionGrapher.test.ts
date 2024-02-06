@@ -99,8 +99,10 @@ export default class PpgPeakDetectionGrapherTest extends AbstractSpruceTest {
 	}
 
 	private static generateDatasets() {
+		const minTimestamp = Math.min(...this.timestamps)
+
 		const normalizedTimestamps = this.timestamps.map(
-			(timestamp) => (timestamp - this.timestamps[0]) / 1000
+			(timestamp) => (timestamp - minTimestamp) / 1000
 		)
 
 		const rawDataFormatted = this.formatData(this.rawData, normalizedTimestamps)
