@@ -72,13 +72,26 @@ export default class PpgPeakDetectionGrapher {
 			timestamps,
 		} = signals
 
-		const rawDataFormatted = this.formatData(rawData, timestamps)
-		const filteredDataFormatted = this.formatData(filteredData, timestamps)
-		const upperEnvelopeFormatted = this.formatData(upperEnvelope, timestamps)
-		const lowerEnvelopeFormatted = this.formatData(lowerEnvelope, timestamps)
+		const normalizedTimestamps = timestamps.map(
+			(timestamp) => (timestamp - timestamps[0]) / 1000
+		)
+
+		const rawDataFormatted = this.formatData(rawData, normalizedTimestamps)
+		const filteredDataFormatted = this.formatData(
+			filteredData,
+			normalizedTimestamps
+		)
+		const upperEnvelopeFormatted = this.formatData(
+			upperEnvelope,
+			normalizedTimestamps
+		)
+		const lowerEnvelopeFormatted = this.formatData(
+			lowerEnvelope,
+			normalizedTimestamps
+		)
 		const thresholdedDataFormatted = this.formatData(
 			thresholdedData,
-			timestamps
+			normalizedTimestamps
 		)
 
 		return {
@@ -113,7 +126,7 @@ export default class PpgPeakDetectionGrapher {
 	private formatData(data: number[], timestamps: number[]) {
 		return data.map((value, i) => {
 			return {
-				x: timestamps[i] ? timestamps[i].toString() : '',
+				x: timestamps[i]?.toString() ?? '',
 				y: value,
 			}
 		})

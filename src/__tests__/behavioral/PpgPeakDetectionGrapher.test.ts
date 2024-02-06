@@ -99,22 +99,26 @@ export default class PpgPeakDetectionGrapherTest extends AbstractSpruceTest {
 	}
 
 	private static generateDatasets() {
-		const rawDataFormatted = this.formatData(this.rawData, this.timestamps)
+		const normalizedTimestamps = this.timestamps.map(
+			(timestamp) => (timestamp - this.timestamps[0]) / 1000
+		)
+
+		const rawDataFormatted = this.formatData(this.rawData, normalizedTimestamps)
 		const filteredDataFormatted = this.formatData(
 			this.filteredData,
-			this.timestamps
+			normalizedTimestamps
 		)
 		const upperEnvelopeFormatted = this.formatData(
 			this.upperEnvelope,
-			this.timestamps
+			normalizedTimestamps
 		)
 		const lowerEnvelopeFormatted = this.formatData(
 			this.lowerEnvelope,
-			this.timestamps
+			normalizedTimestamps
 		)
 		const thresholdedDataFormatted = this.formatData(
 			this.thresholdedData,
-			this.timestamps
+			normalizedTimestamps
 		)
 
 		return {
@@ -173,7 +177,7 @@ export default class PpgPeakDetectionGrapherTest extends AbstractSpruceTest {
 	private static formatData(data: number[], timestamps: number[]) {
 		return data.map((value, i) => {
 			return {
-				x: timestamps[i] ? timestamps[i].toString() : '',
+				x: timestamps[i].toString(),
 				y: value,
 			}
 		})
