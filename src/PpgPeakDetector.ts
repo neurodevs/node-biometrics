@@ -53,11 +53,14 @@ export default class PpgPeakDetector {
 	}
 
 	public run(rawData: number[], timestamps: number[]) {
-		const filtered = this.filter.run(rawData)
-		const result = this.detector.run(filtered, timestamps)
+		const rawDataWithoutFirstSample = rawData.slice(1)
+		const timestampsWithoutFirstSample = timestamps.slice(1)
+
+		const filtered = this.filter.run(rawDataWithoutFirstSample)
+		const result = this.detector.run(filtered, timestampsWithoutFirstSample)
 		return {
 			...result,
-			rawData,
+			rawData: rawDataWithoutFirstSample,
 		}
 	}
 }

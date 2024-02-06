@@ -3,7 +3,6 @@ import AbstractSpruceTest, {
 	assert,
 	errorAssert,
 } from '@sprucelabs/test-utils'
-import { FakeSubplotGrapher } from '@neurodevs/node-server-plots'
 import loadPpgData from '../../loadPpgData'
 import PpgAnalyzerImpl from '../../PpgAnalyzer'
 import PpgPeakDetectionGrapher from '../../PpgPeakDetectionGrapher'
@@ -17,9 +16,10 @@ export default class PpgAnalyzerTest extends AbstractSpruceTest {
 	private static analyzerOptions: PpgAnalyzerOptions
 	private static grapher: PpgPeakDetectionGrapher
 
+	private static shouldSavePngs = false
+
 	protected static async beforeEach() {
 		PpgAnalyzerImpl.DetectorClass = SpyPpgPeakDetector
-		PpgPeakDetectionGrapher.GrapherClass = FakeSubplotGrapher
 
 		this.analyzerOptions = this.generateRandomOptions()
 		this.analyzer = this.Analyzer(this.analyzerOptions)
@@ -59,8 +59,7 @@ export default class PpgAnalyzerTest extends AbstractSpruceTest {
 		'Works with: ppg-example-3-subject-3.csv',
 		'ppg-example-3-subject-3.csv'
 	)
-	@test.skip(
-		// For unknown reasons, peak detection is failing on this file
+	@test(
 		'Works with: ppg-example-2-subject-2.csv',
 		'ppg-example-2-subject-2.csv'
 	)
@@ -80,10 +79,12 @@ export default class PpgAnalyzerTest extends AbstractSpruceTest {
 		const { rrIntervals, hrvMean, hrMean, hrvPercentChange, hrPercentChange } =
 			metrics
 
-		await this.grapher.run(
-			`src/__tests__/testData/${fileName}.plot.png`,
-			signals
-		)
+		if (this.shouldSavePngs) {
+			await this.grapher.run(
+				`src/__tests__/testData/${fileName}.plot.png`,
+				signals
+			)
+		}
 
 		assert.isTruthy(signals)
 		assert.isTruthy(metrics)

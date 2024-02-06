@@ -10,20 +10,20 @@ import {
 
 export default class PpgAnalyzerImpl implements PpgAnalyzer {
 	protected sampleRate: number
-	protected ignoreRrIntervalThreshold: number
+	protected ignoreRrIntervalOverPercentDifferent: number
 
 	public static DetectorClass: PpgPeakDetectorClass = PpgPeakDetector
 	protected detector: PpgPeakDetector
 
 	public constructor(options: PpgAnalyzerOptions) {
-		const { sampleRate, ignoreRrIntervalThreshold = 25 } = assertOptions(
+		const { sampleRate, ignoreRrIntervalThresholdPercent = 25 } = assertOptions(
 			options,
 			['sampleRate']
 		)
 		this.sampleRate = sampleRate
 
 		this.detector = new PpgAnalyzerImpl.DetectorClass({ sampleRate })
-		this.ignoreRrIntervalThreshold = ignoreRrIntervalThreshold
+		this.ignoreRrIntervalOverPercentDifferent = ignoreRrIntervalThresholdPercent
 	}
 
 	public run(data: number[], timestamps: number[]): PpgAnalyzerResults {
@@ -108,7 +108,7 @@ export default class PpgAnalyzerImpl implements PpgAnalyzer {
 
 			const diff = this.calculateAbsDifference(previous, current)
 
-			if (diff < this.ignoreRrIntervalThreshold) {
+			if (diff < this.ignoreRrIntervalOverPercentDifferent) {
 				const squaredDifference = Math.pow(current - previous, 2)
 				squaredDifferences.push(squaredDifference)
 			}
@@ -134,7 +134,7 @@ export default class PpgAnalyzerImpl implements PpgAnalyzer {
 
 			const diff = this.calculateAbsDifference(previous, current)
 
-			if (diff < this.ignoreRrIntervalThreshold) {
+			if (diff < this.ignoreRrIntervalOverPercentDifferent) {
 				validRr.push(current)
 			}
 		}

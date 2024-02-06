@@ -1,6 +1,6 @@
 {
   "name": "@neurodevs/node-biometrics",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "build/index.js",
   "repository": "https://github.com/neurodevs/node-biometrics.git",
   "scripts": {
@@ -67,9 +67,8 @@
     }
   },
   "dependencies": {
-    "@neurodevs/node-server-plots": "^0.1.7",
+    "@neurodevs/node-server-plots": "^0.1.18",
     "@neurodevs/node-signal-processing": "^0.4.1",
-    "fast-csv": "^5.0.0",
-    "sharp": "^0.33.2"
+    "fast-csv": "^5.0.0"
   }
 }

@@ -43,13 +43,13 @@ export default class PpgPeakDetectionGrapherTest extends AbstractSpruceTest {
 		await this.run()
 
 		assert.isEqualDeep(FakeSubplotGrapher.constructorCalledWith[0], {
-			subplotHeight: 300,
-			subplotWidth: 800,
+			subplotHeight: 600,
+			subplotWidth: 4000,
 		})
 
 		assert.isEqualDeep(FakeSubplotGrapher.generateCalledWith[0], {
 			savePath: this.savePath,
-			plotConfigs: this.plotConfigs,
+			plotConfigs: this.plotConfigs as any,
 		})
 	}
 
@@ -58,54 +58,125 @@ export default class PpgPeakDetectionGrapherTest extends AbstractSpruceTest {
 	}
 
 	private static get plotConfigs() {
+		const {
+			rawDataset,
+			filteredDataset,
+			upperEnvelopeDataset,
+			lowerEnvelopeDataset,
+			thresholdedDataset,
+		} = this.generateDatasets()
+
 		return [
 			{
 				title: 'Raw PPG Data',
-				datasets: [{ label: 'Raw PPG Data', data: this.signals.rawData }],
+				datasets: [rawDataset],
 			},
 			{
 				title: 'Filtered PPG Data (0.4-4 Hz Bandpass)',
-				datasets: [
-					{ label: 'Filtered PPG Data', data: this.signals.filteredData },
-				],
+				datasets: [filteredDataset],
 			},
 			{
 				title: 'Upper Envelope (Hilbert)',
-				datasets: [
-					{ label: 'Filtered PPG Data', data: this.signals.filteredData },
-					{ label: 'Upper Envelope', data: this.signals.upperEnvelope },
-				],
+				datasets: [filteredDataset, upperEnvelopeDataset],
 			},
 			{
 				title: 'Lower Envelope (Hilbert)',
-				datasets: [
-					{ label: 'Filtered PPG Data', data: this.signals.filteredData },
-					{ label: 'Upper Envelope', data: this.signals.upperEnvelope },
-					{ label: 'Lower Envelope', data: this.signals.lowerEnvelope },
-				],
+				datasets: [filteredDataset, upperEnvelopeDataset, lowerEnvelopeDataset],
 			},
 			{
 				title: 'Thresholded PPG Data by Lower Envelope',
-				datasets: [
-					{ label: 'Thresholded PPG Data', data: this.signals.thresholdedData },
-					{ label: 'Lower Envelope', data: this.signals.lowerEnvelope },
-				],
+				datasets: [thresholdedDataset, lowerEnvelopeDataset],
 			},
 			{
 				title: 'Peak Detection',
-				datasets: [
-					{ label: 'Thresholded PPG Data', data: this.signals.thresholdedData },
-					{ label: 'Lower Envelope', data: this.signals.lowerEnvelope },
-				],
+				datasets: [thresholdedDataset],
 			},
 			{
 				title: 'Peak Detection Overlay on Raw Data',
-				datasets: [
-					{ label: 'Raw PPG Data', data: this.signals.rawData },
-					{ label: 'Lower Envelope', data: this.signals.lowerEnvelope },
-				],
+				datasets: [rawDataset],
 			},
 		]
+	}
+
+	private static generateDatasets() {
+		const rawDataFormatted = this.formatData(this.rawData, this.timestamps)
+		const filteredDataFormatted = this.formatData(
+			this.filteredData,
+			this.timestamps
+		)
+		const upperEnvelopeFormatted = this.formatData(
+			this.upperEnvelope,
+			this.timestamps
+		)
+		const lowerEnvelopeFormatted = this.formatData(
+			this.lowerEnvelope,
+			this.timestamps
+		)
+		const thresholdedDataFormatted = this.formatData(
+			this.thresholdedData,
+			this.timestamps
+		)
+
+		return {
+			rawDataset: {
+				label: 'Raw PPG Data',
+				data: rawDataFormatted,
+				color: 'cornflowerblue',
+			},
+			filteredDataset: {
+				label: 'Filtered PPG Data',
+				data: filteredDataFormatted,
+				color: 'cornflowerblue',
+			},
+			upperEnvelopeDataset: {
+				label: 'Upper Envelope',
+				data: upperEnvelopeFormatted,
+				color: 'forestgreen',
+			},
+			lowerEnvelopeDataset: {
+				label: 'Lower Envelope',
+				data: lowerEnvelopeFormatted,
+				color: 'goldenrod',
+			},
+			thresholdedDataset: {
+				label: 'Thresholded PPG Data',
+				data: thresholdedDataFormatted,
+				color: 'salmon',
+			},
+		}
+	}
+
+	private static get rawData() {
+		return this.signals.rawData
+	}
+
+	private static get filteredData() {
+		return this.signals.filteredData
+	}
+
+	private static get upperEnvelope() {
+		return this.signals.upperEnvelope
+	}
+
+	private static get lowerEnvelope() {
+		return this.signals.lowerEnvelope
+	}
+
+	private static get thresholdedData() {
+		return this.signals.thresholdedData
+	}
+
+	private static get timestamps() {
+		return this.signals.timestamps
+	}
+
+	private static formatData(data: number[], timestamps: number[]) {
+		return data.map((value, i) => {
+			return {
+				x: timestamps[i] ? timestamps[i].toString() : '',
+				y: value,
+			}
+		})
 	}
 
 	private static async run() {

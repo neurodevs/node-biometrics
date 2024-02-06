@@ -23,7 +23,7 @@ export interface PpgAnalyzer {
 
 export interface PpgAnalyzerOptions {
 	sampleRate: number
-	ignoreRrIntervalThreshold?: number
+	ignoreRrIntervalThresholdPercent?: number
 }
 
 export type PpgAnalyzerClass = new (options: PpgAnalyzerOptions) => PpgAnalyzer
@@ -42,5 +42,5 @@ export interface PpgMetrics {
 }
 
 export interface CalculateHrvOptions {
-	ignoreRrIntervalThreshold: number
+	ignoreRrIntervalThresholdPercent: number
 }

@@ -50,9 +50,10 @@ export default class PpgPeakDetectorTest extends AbstractSpruceTest {
 	}
 
 	@test()
-	protected static async runReturnsRawData() {
+	protected static async runReturnsRawDataWithoutFirstSample() {
 		const result = this.run()
-		assert.isEqualDeep(result.rawData, this.rawData)
+		assert.isEqualDeep(result.rawData, this.rawData.slice(1))
+		assert.isEqualDeep(result.timestamps, this.timestamps.slice(1))
 	}
 
 	private static run() {
