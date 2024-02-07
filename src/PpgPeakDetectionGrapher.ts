@@ -22,13 +22,24 @@ export default class PpgPeakDetectionGrapher {
 	}
 
 	private generatePlotConfigs(signals: PpgPeakDetectorResults) {
+		const { timestamps } = signals
+		const minTimestamp = Math.min(...timestamps)
+
+		const normalizedTimestamps = timestamps.map(
+			(timestamp) => (timestamp - minTimestamp) / 1000
+		)
+
 		const {
 			rawDataset,
 			filteredDataset,
 			upperEnvelopeDataset,
 			lowerEnvelopeDataset,
 			thresholdedDataset,
-		} = this.generateDatasets(signals)
+		} = this.generateDatasets(signals, normalizedTimestamps)
+
+		const peakTimestamps = signals.peaks.map((peak) =>
+			((peak.timestamp - minTimestamp) / 1000)?.toString()
+		)
 
 		return [
 			{
@@ -54,29 +65,27 @@ export default class PpgPeakDetectionGrapher {
 			{
 				title: 'Peak Detection',
 				datasets: [thresholdedDataset],
+				verticalLines: peakTimestamps,
 			},
 			{
 				title: 'Peak Detection Overlay on Raw Data',
 				datasets: [rawDataset],
+				verticalLines: peakTimestamps,
 			},
 		]
 	}
 
-	private generateDatasets(signals: PpgPeakDetectorResults) {
+	private generateDatasets(
+		signals: PpgPeakDetectorResults,
+		normalizedTimestamps: number[]
+	) {
 		const {
 			rawData,
 			filteredData,
 			upperEnvelope,
 			lowerEnvelope,
 			thresholdedData,
-			timestamps,
 		} = signals
-
-		const minTimestamp = Math.min(...timestamps)
-
-		const normalizedTimestamps = timestamps.map(
-			(timestamp) => (timestamp - minTimestamp) / 1000
-		)
 
 		const rawDataFormatted = this.formatData(rawData, normalizedTimestamps)
 		const filteredDataFormatted = this.formatData(

@@ -58,13 +58,23 @@ export default class PpgPeakDetectionGrapherTest extends AbstractSpruceTest {
 	}
 
 	private static get plotConfigs() {
+		const minTimestamp = Math.min(...this.timestamps)
+
+		const normalizedTimestamps = this.timestamps.map(
+			(timestamp) => (timestamp - minTimestamp) / 1000
+		)
+
 		const {
 			rawDataset,
 			filteredDataset,
 			upperEnvelopeDataset,
 			lowerEnvelopeDataset,
 			thresholdedDataset,
-		} = this.generateDatasets()
+		} = this.generateDatasets(normalizedTimestamps)
+
+		const peakTimestamps = this.signals.peaks.map((peak) =>
+			((peak.timestamp - minTimestamp) / 1000)?.toString()
+		)
 
 		return [
 			{
@@ -90,21 +100,17 @@ export default class PpgPeakDetectionGrapherTest extends AbstractSpruceTest {
 			{
 				title: 'Peak Detection',
 				datasets: [thresholdedDataset],
+				verticalLines: peakTimestamps,
 			},
 			{
 				title: 'Peak Detection Overlay on Raw Data',
 				datasets: [rawDataset],
+				verticalLines: peakTimestamps,
 			},
 		]
 	}
 
-	private static generateDatasets() {
-		const minTimestamp = Math.min(...this.timestamps)
-
-		const normalizedTimestamps = this.timestamps.map(
-			(timestamp) => (timestamp - minTimestamp) / 1000
-		)
-
+	private static generateDatasets(normalizedTimestamps: number[]) {
 		const rawDataFormatted = this.formatData(this.rawData, normalizedTimestamps)
 		const filteredDataFormatted = this.formatData(
 			this.filteredData,
