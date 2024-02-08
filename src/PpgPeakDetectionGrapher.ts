@@ -1,4 +1,5 @@
 import {
+	Grapher,
 	SubplotGrapher,
 	SubplotGrapherClass,
 } from '@neurodevs/node-server-plots'
@@ -6,27 +7,42 @@ import { PpgPeakDetectorResults } from './types/nodeBiometrics.types'
 
 export default class PpgPeakDetectionGrapher {
 	public static GrapherClass: SubplotGrapherClass = SubplotGrapher
+	private grapher: Grapher
+
+	private static subplotHeight = 600
+	private static subplotWidth = 4000
+
+	public constructor() {
+		this.grapher = PpgPeakDetectionGrapher.Grapher()
+	}
 
 	public async run(savePath: string, signals: PpgPeakDetectorResults) {
-		const grapher = new PpgPeakDetectionGrapher.GrapherClass({
-			subplotHeight: 600,
-			subplotWidth: 4000,
-		})
-
 		const plotConfigs = this.generatePlotConfigs(signals)
 
-		await grapher.generate({
+		await this.grapher.generate({
 			savePath,
-			plotConfigs: plotConfigs as any, // Incompatible types for data.x,
+			plotConfigs: plotConfigs as any,
+		})
+	}
+
+	private static Grapher() {
+		return new PpgPeakDetectionGrapher.GrapherClass({
+			subplotHeight: PpgPeakDetectionGrapher.subplotHeight,
+			subplotWidth: PpgPeakDetectionGrapher.subplotWidth,
 		})
 	}
 
 	private generatePlotConfigs(signals: PpgPeakDetectorResults) {
-		const { timestamps } = signals
-		const minTimestamp = Math.min(...timestamps)
+		const { timestamps: timestampsInMs } = signals
+		const minTimestampMs = Math.min(...timestampsInMs)
 
-		const normalizedTimestamps = timestamps.map(
-			(timestamp) => (timestamp - minTimestamp) / 1000
+		const normalizedTimestamps = this.normalizeTimestamps(
+			timestampsInMs,
+			minTimestampMs
+		)
+
+		const peakTimestamps = signals.peaks.map((peak) =>
+			((peak.timestamp - minTimestampMs) / 1000)?.toString()
 		)
 
 		const {
@@ -36,10 +52,6 @@ export default class PpgPeakDetectionGrapher {
 			lowerEnvelopeDataset,
 			thresholdedDataset,
 		} = this.generateDatasets(signals, normalizedTimestamps)
-
-		const peakTimestamps = signals.peaks.map((peak) =>
-			((peak.timestamp - minTimestamp) / 1000)?.toString()
-		)
 
 		return [
 			{
@@ -73,6 +85,18 @@ export default class PpgPeakDetectionGrapher {
 				verticalLines: peakTimestamps,
 			},
 		]
+	}
+
+	private normalizeTimestamps(
+		timestampsInMs: number[],
+		minTimestampMs: number
+	) {
+		const msPerSecond = 1000
+
+		const normalizedTimestampsInSecs = timestampsInMs.map(
+			(timestampMs) => (timestampMs - minTimestampMs) / msPerSecond
+		)
+		return normalizedTimestampsInSecs
 	}
 
 	private generateDatasets(

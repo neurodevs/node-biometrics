@@ -32,7 +32,7 @@ export default class PpgPeakDetector {
 		} = assertOptions(options, ['sampleRate'])
 
 		if (!numTaps) {
-			numTaps = 4 * Math.floor(sampleRate) + 1
+			numTaps = this.generateNumTaps(sampleRate)
 		}
 
 		this.sampleRate = sampleRate
@@ -62,5 +62,9 @@ export default class PpgPeakDetector {
 			...result,
 			rawData: rawDataWithoutFirstSample,
 		}
+	}
+
+	private generateNumTaps(sampleRate: number) {
+		return 4 * Math.floor(sampleRate) + 1
 	}
 }

@@ -44,3 +44,7 @@ export interface PpgMetrics {
 export interface CalculateHrvOptions {
 	ignoreRrIntervalThresholdPercent: number
 }
+
+export interface CsvRow {
+	[header: string]: string
+}

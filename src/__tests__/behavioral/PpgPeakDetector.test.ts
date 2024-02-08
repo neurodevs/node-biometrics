@@ -35,12 +35,14 @@ export default class PpgPeakDetectorTest extends AbstractSpruceTest {
 		})
 	}
 
-	@test()
-	protected static async numTapsEqualsSampleRateTimesFourPlusOne() {
-		const detector1 = new SpyPpgPeakDetector({ sampleRate: 100 })
-		assert.isEqual(detector1.getNumTaps(), 401)
-		const detector2 = new SpyPpgPeakDetector({ sampleRate: 100.5 })
-		assert.isEqual(detector2.getNumTaps(), 401)
+	@test('works with sampleRate: 100, numTaps: 401', 100, 401)
+	@test('works with sampleRate: 100.5, numTaps: 401', 100.5, 401)
+	protected static async numTapsEqualsSampleRateTimesFourPlusOne(
+		sampleRate: number,
+		expectedNumTaps: number
+	) {
+		const detector = new SpyPpgPeakDetector({ sampleRate })
+		assert.isEqual(detector.getNumTaps(), expectedNumTaps)
 	}
 
 	@test()
@@ -61,21 +63,22 @@ export default class PpgPeakDetectorTest extends AbstractSpruceTest {
 	}
 
 	private static generateRandomOptions() {
-		const lowCutoffHz = Math.random()
-		const highCutoffHz = randomInt(2, 10) * lowCutoffHz
-
-		let numTaps = randomInt(51, 101)
-		if (numTaps % 2 === 0) {
-			// numTaps must be odd
-			numTaps++
-		}
-
 		return {
 			sampleRate: 100 * Math.random(),
-			lowCutoffHz,
-			highCutoffHz,
-			numTaps,
+			lowCutoffHz: randomInt(1, 5) * Math.random(),
+			highCutoffHz: randomInt(6, 10) * Math.random(),
+			numTaps: this.generateValidNumTaps(),
 			attenuation: 100 * Math.random(),
 		}
+	}
+
+	private static generateValidNumTaps() {
+		let numTaps = randomInt(51, 101)
+		const numTapsIsOdd = numTaps % 2 !== 0
+
+		if (!numTapsIsOdd) {
+			numTaps++
+		}
+		return numTaps
 	}
 }

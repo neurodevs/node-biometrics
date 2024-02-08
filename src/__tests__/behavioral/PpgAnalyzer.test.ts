@@ -3,20 +3,20 @@ import AbstractSpruceTest, {
 	assert,
 	errorAssert,
 } from '@sprucelabs/test-utils'
-import loadPpgData from '../../loadPpgData'
 import PpgAnalyzerImpl from '../../PpgAnalyzer'
 import PpgPeakDetectionGrapher from '../../PpgPeakDetectionGrapher'
 import SpyPpgAnalyzer from '../../testDoubles/SpyPpgAnalyzer'
 import SpyPpgPeakDetector from '../../testDoubles/SpyPpgPeakDetector'
 import { PpgAnalyzerOptions } from '../../types/nodeBiometrics.types'
 import expectedOutput from '../testData/expectedOutput'
+import loadPpgData from '../testData/loadPpgData'
 
 export default class PpgAnalyzerTest extends AbstractSpruceTest {
 	private static analyzer: SpyPpgAnalyzer
 	private static analyzerOptions: PpgAnalyzerOptions
 	private static grapher: PpgPeakDetectionGrapher
 
-	private static shouldSavePngs = false
+	private static shouldSavePngs = true
 
 	protected static async beforeEach() {
 		PpgAnalyzerImpl.DetectorClass = SpyPpgPeakDetector

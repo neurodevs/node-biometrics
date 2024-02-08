@@ -1,5 +1,5 @@
-import { loadCsv } from './loader'
-import { normalizeArray } from './preprocess'
+import { loadCsv } from '../../loader'
+import { normalizeArray } from '../../preprocess'
 
 export default async function loadPpgData(fileName: string) {
 	const ppgData = await loadCsv(`src/__tests__/testData/${fileName}`)
