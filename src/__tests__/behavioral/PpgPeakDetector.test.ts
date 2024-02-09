@@ -66,7 +66,7 @@ export default class PpgPeakDetectorTest extends AbstractSpruceTest {
 		return {
 			sampleRate: 100 * Math.random(),
 			lowCutoffHz: randomInt(1, 5) * Math.random(),
-			highCutoffHz: randomInt(6, 10) * Math.random(),
+			highCutoffHz: 10 + randomInt(1, 5) * Math.random(),
 			numTaps: this.generateValidNumTaps(),
 			attenuation: 100 * Math.random(),
 		}
