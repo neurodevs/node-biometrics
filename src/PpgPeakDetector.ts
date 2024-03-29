@@ -27,13 +27,9 @@ export default class PpgPeakDetector {
 			sampleRate,
 			lowCutoffHz = 0.4,
 			highCutoffHz = 4.0,
-			numTaps = null,
+			numTaps = this.generateNumTaps(sampleRate),
 			attenuation = 50,
 		} = assertOptions(options, ['sampleRate'])
-
-		if (!numTaps) {
-			numTaps = this.generateNumTaps(sampleRate)
-		}
 
 		this.sampleRate = sampleRate
 		this.lowCutoffHz = lowCutoffHz
@@ -47,6 +43,7 @@ export default class PpgPeakDetector {
 			highCutoffHz,
 			numTaps,
 			attenuation,
+			usePadding: true,
 		})
 
 		this.detector = new PpgPeakDetector.DetectorClass()
