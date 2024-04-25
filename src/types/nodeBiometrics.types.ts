@@ -2,49 +2,47 @@ import { PeakDetectorResults } from '@neurodevs/node-signal-processing'
 import PpgPeakDetector from '../PpgPeakDetector'
 
 export type PpgPeakDetectorClass = new (
-	options: PpgPeakDetectorOptions
+    options: PpgPeakDetectorOptions
 ) => PpgPeakDetector
 
 export interface PpgPeakDetectorOptions {
-	sampleRate: number
-	lowCutoffHz?: number
-	highCutoffHz?: number
-	numTaps?: number
-	attenuation?: number
+    sampleRate: number
+    lowCutoffHz?: number
+    highCutoffHz?: number
+    numTaps?: number
+    attenuation?: number
 }
 
 export interface PpgPeakDetectorResults extends PeakDetectorResults {
-	rawData: number[]
+    rawData: number[]
 }
 
 export interface PpgAnalyzer {
-	run(data: number[], timestamps: number[]): PpgAnalyzerResults
+    run(data: number[], timestamps: number[]): PpgAnalyzerResults
 }
 
 export interface PpgAnalyzerOptions {
-	sampleRate: number
-	ignoreRrIntervalThresholdPercent?: number
+    sampleRate: number
+    ignoreRrIntervalThresholdPercent?: number
 }
 
 export type PpgAnalyzerClass = new (options: PpgAnalyzerOptions) => PpgAnalyzer
 
 export interface PpgAnalyzerResults {
-	signals: PpgPeakDetectorResults
-	metrics: PpgMetrics
+    signals: PpgPeakDetectorResults
+    metrics: PpgMetrics
 }
 
 export interface PpgMetrics {
-	rrIntervals: number[]
-	hrvMean: number
-	hrvPercentChange: number
-	hrMean: number
-	hrPercentChange: number
+    rrIntervals: number[]
+    hrvMean: number
+    hrvPercentChange: number
+    hrMean: number
+    hrPercentChange: number
 }
 
 export interface CalculateHrvOptions {
-	ignoreRrIntervalThresholdPercent: number
+    ignoreRrIntervalThresholdPercent: number
 }
 
-export interface CsvRow {
-	[header: string]: string
-}
+export type CsvRow = Record<string, string>

@@ -4,13 +4,13 @@ import { parse } from 'fast-csv'
 import { CsvRow } from './types/nodeBiometrics.types'
 
 export async function loadCsv(filePath: string): Promise<CsvRow[]> {
-	return new Promise((resolve, reject) => {
-		const results: CsvRow[] = []
+    return new Promise((resolve, reject) => {
+        const results: CsvRow[] = []
 
-		fs.createReadStream(filePath)
-			.pipe(parse({ headers: true }))
-			.on('data', (row: CsvRow) => results.push(row))
-			.on('end', () => resolve(results))
-			.on('error', (error: any) => reject(error))
-	})
+        fs.createReadStream(filePath)
+            .pipe(parse({ headers: true }))
+            .on('data', (row: CsvRow) => results.push(row))
+            .on('end', () => resolve(results))
+            .on('error', (error: any) => reject(error))
+    })
 }
