@@ -6,7 +6,7 @@ import {
     PpgPeakDetectorClass,
     PpgAnalyzerOptions,
     PpgAnalyzerResults,
-} from './types/nodeBiometrics.types'
+} from './types'
 
 export default class PpgAnalyzerImpl implements PpgAnalyzer {
     protected sampleRate: number

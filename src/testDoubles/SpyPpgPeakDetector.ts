@@ -1,5 +1,5 @@
 import PpgPeakDetector from '../PpgPeakDetector'
-import { PpgPeakDetectorOptions } from '../types/nodeBiometrics.types'
+import { PpgPeakDetectorOptions } from '../types'
 
 export default class SpyPpgPeakDetector extends PpgPeakDetector {
     public static constructorHitCount = 0

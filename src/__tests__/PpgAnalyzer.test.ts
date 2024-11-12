@@ -7,7 +7,7 @@ import PpgAnalyzerImpl from '../PpgAnalyzer'
 import PpgPeakDetectionGrapher from '../PpgPeakDetectionGrapher'
 import SpyPpgAnalyzer from '../testDoubles/SpyPpgAnalyzer'
 import SpyPpgPeakDetector from '../testDoubles/SpyPpgPeakDetector'
-import { PpgAnalyzerOptions } from '../types/nodeBiometrics.types'
+import { PpgAnalyzerOptions } from '../types'
 import expectedOutput from './testData/expectedOutput'
 import loadPpgData from './testData/loadPpgData'
 

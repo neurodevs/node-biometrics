@@ -11,7 +11,7 @@ export * from './PpgPeakDetectionGrapher'
 
 // Types
 
-export * from './types/nodeBiometrics.types'
+export * from './types'
 
 // Test doubles
 

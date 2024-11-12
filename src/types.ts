@@ -1,5 +1,5 @@
 import { PeakDetectorResults } from '@neurodevs/node-signal-processing'
-import PpgPeakDetector from '../PpgPeakDetector'
+import PpgPeakDetector from './PpgPeakDetector'
 
 export type PpgPeakDetectorClass = new (
     options: PpgPeakDetectorOptions
