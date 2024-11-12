@@ -1,13 +1,13 @@
 // Production code
 
-export { default as PpgAnalyzerImpl } from './PpgAnalyzer'
-export * from './PpgAnalyzer'
+export { default as PpgAnalyzerImpl } from './components/PpgAnalyzer'
+export * from './components/PpgAnalyzer'
 
-export { default as PpgPeakDetector } from './PpgPeakDetector'
-export * from './PpgPeakDetector'
+export { default as PpgPeakDetector } from './components/PpgPeakDetector'
+export * from './components/PpgPeakDetector'
 
-export { default as PpgPeakDetectionGrapher } from './PpgPeakDetectionGrapher'
-export * from './PpgPeakDetectionGrapher'
+export { default as PpgPeakDetectionGrapher } from './components/PpgPeakDetectionGrapher'
+export * from './components/PpgPeakDetectionGrapher'
 
 // Types
 

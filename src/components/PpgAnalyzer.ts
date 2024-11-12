@@ -1,12 +1,12 @@
 import { assertOptions } from '@sprucelabs/schema'
 import { DataPoint } from '@neurodevs/node-signal-processing'
-import PpgPeakDetector from './PpgPeakDetector'
 import {
     PpgAnalyzer,
     PpgPeakDetectorClass,
     PpgAnalyzerOptions,
     PpgAnalyzerResults,
-} from './types'
+} from '../types'
+import PpgPeakDetector from './PpgPeakDetector'
 
 export default class PpgAnalyzerImpl implements PpgAnalyzer {
     protected sampleRate: number

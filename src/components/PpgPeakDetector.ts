@@ -7,7 +7,7 @@ import {
     PeakDetector,
     Filter,
 } from '@neurodevs/node-signal-processing'
-import { PpgPeakDetectorOptions } from './types'
+import { PpgPeakDetectorOptions } from '../types'
 
 export default class PpgPeakDetector {
     protected sampleRate: number

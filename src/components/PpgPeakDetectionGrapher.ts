@@ -3,7 +3,7 @@ import {
     SubplotGrapher,
     SubplotGrapherClass,
 } from '@neurodevs/node-server-plots'
-import { PpgPeakDetectorResults } from './types'
+import { PpgPeakDetectorResults } from '../types'
 
 export default class PpgPeakDetectionGrapher {
     public static GrapherClass: SubplotGrapherClass = SubplotGrapher

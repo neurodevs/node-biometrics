@@ -3,8 +3,8 @@ import AbstractSpruceTest, {
     assert,
     errorAssert,
 } from '@sprucelabs/test-utils'
-import PpgAnalyzerImpl from '../PpgAnalyzer'
-import PpgPeakDetectionGrapher from '../PpgPeakDetectionGrapher'
+import PpgAnalyzerImpl from '../components/PpgAnalyzer'
+import PpgPeakDetectionGrapher from '../components/PpgPeakDetectionGrapher'
 import SpyPpgAnalyzer from '../testDoubles/SpyPpgAnalyzer'
 import SpyPpgPeakDetector from '../testDoubles/SpyPpgPeakDetector'
 import { PpgAnalyzerOptions } from '../types'
