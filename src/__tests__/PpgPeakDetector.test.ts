@@ -5,9 +5,9 @@ import AbstractSpruceTest, {
     errorAssert,
 } from '@sprucelabs/test-utils'
 import { SpyFirBandpassFilter } from '@neurodevs/node-signal-processing'
-import PpgPeakDetector from '../../PpgPeakDetector'
-import SpyPpgPeakDetector from '../../testDoubles/SpyPpgPeakDetector'
-import { PpgPeakDetectorOptions } from '../../types/nodeBiometrics.types'
+import PpgPeakDetector from '../PpgPeakDetector'
+import SpyPpgPeakDetector from '../testDoubles/SpyPpgPeakDetector'
+import { PpgPeakDetectorOptions } from '../types/nodeBiometrics.types'
 
 export default class PpgPeakDetectorTest extends AbstractSpruceTest {
     private static randomDetector: SpyPpgPeakDetector

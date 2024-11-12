@@ -3,13 +3,13 @@ import AbstractSpruceTest, {
     assert,
     errorAssert,
 } from '@sprucelabs/test-utils'
-import PpgAnalyzerImpl from '../../PpgAnalyzer'
-import PpgPeakDetectionGrapher from '../../PpgPeakDetectionGrapher'
-import SpyPpgAnalyzer from '../../testDoubles/SpyPpgAnalyzer'
-import SpyPpgPeakDetector from '../../testDoubles/SpyPpgPeakDetector'
-import { PpgAnalyzerOptions } from '../../types/nodeBiometrics.types'
-import expectedOutput from '../testData/expectedOutput'
-import loadPpgData from '../testData/loadPpgData'
+import PpgAnalyzerImpl from '../PpgAnalyzer'
+import PpgPeakDetectionGrapher from '../PpgPeakDetectionGrapher'
+import SpyPpgAnalyzer from '../testDoubles/SpyPpgAnalyzer'
+import SpyPpgPeakDetector from '../testDoubles/SpyPpgPeakDetector'
+import { PpgAnalyzerOptions } from '../types/nodeBiometrics.types'
+import expectedOutput from './testData/expectedOutput'
+import loadPpgData from './testData/loadPpgData'
 
 export default class PpgAnalyzerTest extends AbstractSpruceTest {
     private static analyzer: SpyPpgAnalyzer
