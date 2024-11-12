@@ -1,4 +1,4 @@
-import { loadCsv } from '../../loader'
+import { loadCsv } from '../../utils/loader'
 
 export default async function loadPpgData(fileName: string) {
     const ppgData = await loadCsv(`src/__tests__/testData/${fileName}`)

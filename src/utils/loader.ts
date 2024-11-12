@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 //@ts-ignore
 import { parse } from 'fast-csv'
-import { CsvRow } from './types'
+import { CsvRow } from '../types'
 
 export async function loadCsv(filePath: string): Promise<CsvRow[]> {
     return new Promise((resolve, reject) => {
