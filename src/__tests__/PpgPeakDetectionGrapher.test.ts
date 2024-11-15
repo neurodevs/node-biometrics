@@ -11,7 +11,7 @@ export default class PpgPeakDetectionGrapherTest extends AbstractSpruceTest {
     private static grapher: PpgPeakDetectionGrapher
     private static savePath: string
     private static signals: PpgPeakDetectorResults
-    private static dataLength: number
+    private static signalLength: number
 
     protected static async beforeEach() {
         await super.beforeEach()
@@ -19,20 +19,20 @@ export default class PpgPeakDetectionGrapherTest extends AbstractSpruceTest {
         PpgPeakDetectionGrapher.GrapherClass = FakeSubplotGrapher
 
         this.savePath = `${generateId()}.plot.png`
-        this.dataLength = 4
+        this.signalLength = 4
 
         this.signals = {
-            rawData: this.generateRandomArray(this.dataLength),
-            filteredData: this.generateRandomArray(this.dataLength),
-            timestamps: this.generateRandomArray(this.dataLength),
-            upperAnalyticSignal: this.generateRandomArray(this.dataLength),
-            upperEnvelope: this.generateRandomArray(this.dataLength),
-            lowerAnalyticSignal: this.generateRandomArray(this.dataLength),
-            lowerEnvelope: this.generateRandomArray(this.dataLength),
-            thresholdedData: this.generateRandomArray(this.dataLength),
-            segmentedData: [],
+            rawSignal: this.generateRandomArray(this.signalLength),
+            filteredSignal: this.generateRandomArray(this.signalLength),
+            timestamps: this.generateRandomArray(this.signalLength),
+            upperAnalyticSignal: this.generateRandomArray(this.signalLength),
+            upperEnvelope: this.generateRandomArray(this.signalLength),
+            lowerAnalyticSignal: this.generateRandomArray(this.signalLength),
+            lowerEnvelope: this.generateRandomArray(this.signalLength),
+            thresholdedSignal: this.generateRandomArray(this.signalLength),
+            nonZeroSegments: [],
             peaks: [],
-        } as PpgPeakDetectorResults
+        } as unknown as PpgPeakDetectorResults
 
         this.grapher = this.Grapher()
         assert.isTruthy(this.grapher)
@@ -78,11 +78,11 @@ export default class PpgPeakDetectionGrapherTest extends AbstractSpruceTest {
 
         return [
             {
-                title: 'Raw PPG Data',
+                title: 'Raw PPG Signal',
                 datasets: [rawDataset],
             },
             {
-                title: 'Filtered PPG Data (0.4-4 Hz Bandpass)',
+                title: 'Filtered PPG Signal (0.4-4 Hz Bandpass)',
                 datasets: [filteredDataset],
             },
             {
@@ -98,16 +98,16 @@ export default class PpgPeakDetectionGrapherTest extends AbstractSpruceTest {
                 ],
             },
             {
-                title: 'Thresholded PPG Data by Lower Envelope',
+                title: 'Thresholded PPG Signal by Lower Envelope',
                 datasets: [thresholdedDataset, lowerEnvelopeDataset],
             },
             {
-                title: 'Peak Detection',
+                title: 'Peak Detection on Thresholded Signal',
                 datasets: [thresholdedDataset],
                 verticalLines: peakTimestamps,
             },
             {
-                title: 'Peak Detection Overlay on Raw Data',
+                title: 'Peak Detection on Raw Signal',
                 datasets: [rawDataset],
                 verticalLines: peakTimestamps,
             },
@@ -115,62 +115,62 @@ export default class PpgPeakDetectionGrapherTest extends AbstractSpruceTest {
     }
 
     private static generateDatasets(normalizedTimestamps: number[]) {
-        const rawDataFormatted = this.formatData(
-            this.rawData,
+        const formattedRawSignal = this.formatSignal(
+            this.rawSignal,
             normalizedTimestamps
         )
-        const filteredDataFormatted = this.formatData(
-            this.filteredData,
+        const formattedFilteredSignal = this.formatSignal(
+            this.filteredSignal,
             normalizedTimestamps
         )
-        const upperEnvelopeFormatted = this.formatData(
+        const formattedUpperEnvelope = this.formatSignal(
             this.upperEnvelope,
             normalizedTimestamps
         )
-        const lowerEnvelopeFormatted = this.formatData(
+        const formattedLowerEnvelope = this.formatSignal(
             this.lowerEnvelope,
             normalizedTimestamps
         )
-        const thresholdedDataFormatted = this.formatData(
-            this.thresholdedData,
+        const formattedThresholdedSignal = this.formatSignal(
+            this.thresholdedSignal,
             normalizedTimestamps
         )
 
         return {
             rawDataset: {
-                label: 'Raw PPG Data',
-                data: rawDataFormatted,
+                label: 'Raw PPG Signal',
+                data: formattedRawSignal,
                 color: 'cornflowerblue',
             },
             filteredDataset: {
-                label: 'Filtered PPG Data',
-                data: filteredDataFormatted,
+                label: 'Filtered PPG Signal',
+                data: formattedFilteredSignal,
                 color: 'cornflowerblue',
             },
             upperEnvelopeDataset: {
                 label: 'Upper Envelope',
-                data: upperEnvelopeFormatted,
+                data: formattedUpperEnvelope,
                 color: 'forestgreen',
             },
             lowerEnvelopeDataset: {
                 label: 'Lower Envelope',
-                data: lowerEnvelopeFormatted,
+                data: formattedLowerEnvelope,
                 color: 'goldenrod',
             },
             thresholdedDataset: {
-                label: 'Thresholded PPG Data',
-                data: thresholdedDataFormatted,
+                label: 'Thresholded PPG Signal',
+                data: formattedThresholdedSignal,
                 color: 'salmon',
             },
         }
     }
 
-    private static get rawData() {
-        return this.signals.rawData
+    private static get rawSignal() {
+        return this.signals.rawSignal
     }
 
-    private static get filteredData() {
-        return this.signals.filteredData
+    private static get filteredSignal() {
+        return this.signals.filteredSignal
     }
 
     private static get upperEnvelope() {
@@ -181,16 +181,16 @@ export default class PpgPeakDetectionGrapherTest extends AbstractSpruceTest {
         return this.signals.lowerEnvelope
     }
 
-    private static get thresholdedData() {
-        return this.signals.thresholdedData
+    private static get thresholdedSignal() {
+        return this.signals.thresholdedSignal
     }
 
     private static get timestamps() {
         return this.signals.timestamps
     }
 
-    private static formatData(data: number[], timestamps: number[]) {
-        return data.map((value, i) => {
+    private static formatSignal(signal: number[], timestamps: number[]) {
+        return signal.map((value, i) => {
             return {
                 x: timestamps[i].toString(),
                 y: value,

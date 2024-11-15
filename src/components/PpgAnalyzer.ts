@@ -25,25 +25,25 @@ export default class PpgAnalyzerImpl implements PpgAnalyzer {
             ignoreRrIntervalThresholdPercent
     }
 
-    public run(data: number[], timestamps: number[]): PpgAnalyzerResults {
-        const middleIdx = Math.floor(data.length / 2)
+    public run(signal: number[], timestamps: number[]): PpgAnalyzerResults {
+        const middleIdx = Math.floor(signal.length / 2)
 
-        const dataFirstHalf = data.slice(0, middleIdx)
+        const signalFirstHalf = signal.slice(0, middleIdx)
         const timestampsFirstHalf = timestamps.slice(0, middleIdx)
 
-        const dataSecondHalf = data.slice(middleIdx)
+        const signalSecondHalf = signal.slice(middleIdx)
         const timestampsSecondHalf = timestamps.slice(middleIdx)
 
         const { result, rrIntervals, hrvMean, hrMean } = this.calculateMetrics(
-            data,
+            signal,
             timestamps
         )
 
         const { hrvMean: hrvMeanFirstHalf, hrMean: hrMeanFirstHalf } =
-            this.calculateMetrics(dataFirstHalf, timestampsFirstHalf)
+            this.calculateMetrics(signalFirstHalf, timestampsFirstHalf)
 
         const { hrvMean: hrvMeanSecondHalf, hrMean: hrMeanSecondHalf } =
-            this.calculateMetrics(dataSecondHalf, timestampsSecondHalf)
+            this.calculateMetrics(signalSecondHalf, timestampsSecondHalf)
 
         const hrvPercentChange = this.calculatePercentChange(
             hrvMeanFirstHalf,
@@ -73,8 +73,8 @@ export default class PpgAnalyzerImpl implements PpgAnalyzer {
         return ((meanSecondHalf - meanFirstHalf) / meanFirstHalf) * 100
     }
 
-    private calculateMetrics(data: number[], timestamps: number[]) {
-        const result = this.detector.run(data, timestamps)
+    private calculateMetrics(signal: number[], timestamps: number[]) {
+        const result = this.detector.run(signal, timestamps)
         const { peaks } = result
 
         const rrIntervals = this.calculateRrIntervals(peaks)

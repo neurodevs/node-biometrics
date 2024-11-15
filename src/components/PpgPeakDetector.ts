@@ -2,8 +2,6 @@ import { assertOptions } from '@sprucelabs/schema'
 import {
     HilbertPeakDetector,
     FirBandpassFilter,
-    FirBandpassFilterClass,
-    HilbertPeakDetectorClass,
     PeakDetector,
     Filter,
 } from '@neurodevs/node-signal-processing'
@@ -15,11 +13,7 @@ export default class PpgPeakDetector {
     protected highCutoffHz: number
     protected numTaps: number
     protected attenuation: number
-
-    public static FilterClass: FirBandpassFilterClass = FirBandpassFilter
     private filter: Filter
-
-    public static DetectorClass: HilbertPeakDetectorClass = HilbertPeakDetector
     private detector: PeakDetector
 
     public constructor(options: PpgPeakDetectorOptions) {
@@ -37,7 +31,7 @@ export default class PpgPeakDetector {
         this.numTaps = numTaps
         this.attenuation = attenuation
 
-        this.filter = new PpgPeakDetector.FilterClass({
+        this.filter = FirBandpassFilter.Create({
             sampleRate,
             lowCutoffHz,
             highCutoffHz,
@@ -46,18 +40,18 @@ export default class PpgPeakDetector {
             usePadding: true,
         })
 
-        this.detector = new PpgPeakDetector.DetectorClass()
+        this.detector = HilbertPeakDetector.Create()
     }
 
-    public run(rawData: number[], timestamps: number[]) {
-        const rawDataWithoutFirstSample = rawData.slice(1)
+    public run(rawSignal: number[], timestamps: number[]) {
+        const rawSignalWithoutFirstSample = rawSignal.slice(1)
         const timestampsWithoutFirstSample = timestamps.slice(1)
 
-        const filtered = this.filter.run(rawDataWithoutFirstSample)
+        const filtered = this.filter.run(rawSignalWithoutFirstSample)
         const result = this.detector.run(filtered, timestampsWithoutFirstSample)
         return {
             ...result,
-            rawData: rawDataWithoutFirstSample,
+            rawSignal: rawSignalWithoutFirstSample,
         }
     }
 

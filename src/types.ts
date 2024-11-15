@@ -14,11 +14,11 @@ export interface PpgPeakDetectorOptions {
 }
 
 export interface PpgPeakDetectorResults extends PeakDetectorResults {
-    rawData: number[]
+    rawSignal: number[]
 }
 
 export interface PpgAnalyzer {
-    run(data: number[], timestamps: number[]): PpgAnalyzerResults
+    run(signal: number[], timestamps: number[]): PpgAnalyzerResults
 }
 
 export interface PpgAnalyzerOptions {

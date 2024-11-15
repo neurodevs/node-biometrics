@@ -4,7 +4,10 @@ import AbstractSpruceTest, {
     assert,
     errorAssert,
 } from '@sprucelabs/test-utils'
-import { SpyFirBandpassFilter } from '@neurodevs/node-signal-processing'
+import {
+    FirBandpassFilter,
+    SpyFirBandpassFilter,
+} from '@neurodevs/node-signal-processing'
 import PpgPeakDetector from '../components/PpgPeakDetector'
 import SpyPpgPeakDetector from '../testDoubles/SpyPpgPeakDetector'
 import { PpgPeakDetectorOptions } from '../types'
@@ -16,8 +19,7 @@ export default class PpgPeakDetectorTest extends AbstractSpruceTest {
     private static timestamps: number[]
 
     protected static async beforeEach() {
-        PpgPeakDetector.FilterClass = SpyFirBandpassFilter
-        SpyFirBandpassFilter.clear()
+        FirBandpassFilter.Class = SpyFirBandpassFilter
 
         this.randomOptions = this.generateRandomOptions()
         this.randomDetector = new SpyPpgPeakDetector(this.randomOptions)
@@ -48,13 +50,13 @@ export default class PpgPeakDetectorTest extends AbstractSpruceTest {
     @test()
     protected static async runCallsDependenciesAsExpected() {
         this.run()
-        assert.isEqual(SpyFirBandpassFilter.runHitCount, 1)
+        assert.isEqual(SpyFirBandpassFilter.callsToRun.length, 1)
     }
 
     @test()
     protected static async runReturnsRawDataWithoutFirstSample() {
         const result = this.run()
-        assert.isEqualDeep(result.rawData, this.rawData.slice(1))
+        assert.isEqualDeep(result.rawSignal, this.rawData.slice(1))
         assert.isEqualDeep(result.timestamps, this.timestamps.slice(1))
     }
 

@@ -1,6 +1,6 @@
 {
   "name": "@neurodevs/node-biometrics",
-  "version": "0.3.10",
+  "version": "0.4.0",
   "main": "build/index.js",
   "repository": "https://github.com/neurodevs/node-biometrics.git",
   "scripts": {
@@ -27,12 +27,12 @@
     "watch.tsc": "tsc -w"
   },
   "devDependencies": {
-    "@sprucelabs/jest-json-reporter": "^8.0.538",
-    "@sprucelabs/resolve-path-aliases": "^2.0.513",
-    "@sprucelabs/spruce-test-fixtures": "^62.4.2",
+    "@sprucelabs/jest-json-reporter": "^8.0.540",
+    "@sprucelabs/resolve-path-aliases": "^2.0.514",
+    "@sprucelabs/spruce-test-fixtures": "^62.4.25",
     "@sprucelabs/test": "^9.0.57",
-    "@sprucelabs/test-utils": "^5.1.496",
-    "@types/node": "^22.8.7",
+    "@sprucelabs/test-utils": "^5.1.500",
+    "@types/node": "^22.9.0",
     "chokidar-cli": "^3.0.0",
     "concurrently": "^9.1.0",
     "eslint": "^9.14.0",
@@ -67,8 +67,8 @@
     }
   },
   "dependencies": {
-    "@neurodevs/node-server-plots": "^0.3.10",
-    "@neurodevs/node-signal-processing": "^0.4.10",
+    "@neurodevs/node-server-plots": "^0.3.11",
+    "@neurodevs/node-signal-processing": "^3.0.3",
     "fast-csv": "^5.0.2"
   }
 }

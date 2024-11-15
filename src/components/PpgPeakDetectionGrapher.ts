@@ -55,11 +55,11 @@ export default class PpgPeakDetectionGrapher {
 
         return [
             {
-                title: 'Raw PPG Data',
+                title: 'Raw PPG Signal',
                 datasets: [rawDataset],
             },
             {
-                title: 'Filtered PPG Data (0.4-4 Hz Bandpass)',
+                title: 'Filtered PPG Signal (0.4-4 Hz Bandpass)',
                 datasets: [filteredDataset],
             },
             {
@@ -75,16 +75,16 @@ export default class PpgPeakDetectionGrapher {
                 ],
             },
             {
-                title: 'Thresholded PPG Data by Lower Envelope',
+                title: 'Thresholded PPG Signal by Lower Envelope',
                 datasets: [thresholdedDataset, lowerEnvelopeDataset],
             },
             {
-                title: 'Peak Detection',
+                title: 'Peak Detection on Thresholded Signal',
                 datasets: [thresholdedDataset],
                 verticalLines: peakTimestamps,
             },
             {
-                title: 'Peak Detection Overlay on Raw Data',
+                title: 'Peak Detection on Raw Signal',
                 datasets: [rawDataset],
                 verticalLines: peakTimestamps,
             },
@@ -108,62 +108,65 @@ export default class PpgPeakDetectionGrapher {
         normalizedTimestamps: number[]
     ) {
         const {
-            rawData,
-            filteredData,
+            rawSignal,
+            filteredSignal,
             upperEnvelope,
             lowerEnvelope,
-            thresholdedData,
+            thresholdedSignal,
         } = signals
 
-        const rawDataFormatted = this.formatData(rawData, normalizedTimestamps)
-        const filteredDataFormatted = this.formatData(
-            filteredData,
+        const formattedRawSignal = this.formatSignal(
+            rawSignal,
             normalizedTimestamps
         )
-        const upperEnvelopeFormatted = this.formatData(
+        const formattedFilteredSignal = this.formatSignal(
+            filteredSignal,
+            normalizedTimestamps
+        )
+        const formattedUpperEnvelope = this.formatSignal(
             upperEnvelope,
             normalizedTimestamps
         )
-        const lowerEnvelopeFormatted = this.formatData(
+        const formattedLowerEnvelope = this.formatSignal(
             lowerEnvelope,
             normalizedTimestamps
         )
-        const thresholdedDataFormatted = this.formatData(
-            thresholdedData,
+        const formattedThresholdedSignal = this.formatSignal(
+            thresholdedSignal,
             normalizedTimestamps
         )
 
         return {
             rawDataset: {
-                label: 'Raw PPG Data',
-                data: rawDataFormatted,
+                label: 'Raw PPG Signal',
+                data: formattedRawSignal,
                 color: 'cornflowerblue',
             },
             filteredDataset: {
-                label: 'Filtered PPG Data',
-                data: filteredDataFormatted,
+                label: 'Filtered PPG Signal',
+                data: formattedFilteredSignal,
                 color: 'cornflowerblue',
             },
             upperEnvelopeDataset: {
                 label: 'Upper Envelope',
-                data: upperEnvelopeFormatted,
+                data: formattedUpperEnvelope,
                 color: 'forestgreen',
             },
             lowerEnvelopeDataset: {
                 label: 'Lower Envelope',
-                data: lowerEnvelopeFormatted,
+                data: formattedLowerEnvelope,
                 color: 'goldenrod',
             },
             thresholdedDataset: {
-                label: 'Thresholded PPG Data',
-                data: thresholdedDataFormatted,
+                label: 'Thresholded PPG Signal',
+                data: formattedThresholdedSignal,
                 color: 'salmon',
             },
         }
     }
 
-    private formatData(data: number[], timestamps: number[]) {
-        return data.map((value, i) => {
+    private formatSignal(signal: number[], timestamps: number[]) {
+        return signal.map((value, i) => {
             return {
                 x: timestamps[i]?.toString() ?? '',
                 y: value,
