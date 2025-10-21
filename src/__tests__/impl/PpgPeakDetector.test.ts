@@ -8,9 +8,9 @@ import {
     FirBandpassFilter,
     SpyFirBandpassFilter,
 } from '@neurodevs/node-signal-processing'
-import PpgPeakDetector from '../components/PpgPeakDetector'
-import SpyPpgPeakDetector from '../testDoubles/SpyPpgPeakDetector'
-import { PpgPeakDetectorOptions } from '../types'
+import PpgPeakDetector from '../../impl/PpgPeakDetector'
+import SpyPpgPeakDetector from '../../testDoubles/SpyPpgPeakDetector'
+import { PpgPeakDetectorOptions } from '../../types'
 
 export default class PpgPeakDetectorTest extends AbstractSpruceTest {
     private static randomDetector: SpyPpgPeakDetector

@@ -1,4 +1,4 @@
-import PpgAnalyzerImpl from '../components/PpgAnalyzer'
+import PpgAnalyzerImpl from '../impl/PpgAnalyzer'
 
 export default class SpyPpgAnalyzer extends PpgAnalyzerImpl {
     public getSampleRate() {

@@ -1,4 +1,4 @@
-import PpgPeakDetector from '../components/PpgPeakDetector'
+import PpgPeakDetector from '../impl/PpgPeakDetector'
 import { PpgPeakDetectorOptions } from '../types'
 
 export default class SpyPpgPeakDetector extends PpgPeakDetector {

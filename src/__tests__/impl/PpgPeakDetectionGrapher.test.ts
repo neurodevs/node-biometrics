@@ -4,8 +4,8 @@ import AbstractSpruceTest, {
     generateId,
 } from '@sprucelabs/test-utils'
 import { FakeSubplotGrapher } from '@neurodevs/node-server-plots'
-import PpgPeakDetectionGrapher from '../components/PpgPeakDetectionGrapher'
-import { PpgPeakDetectorResults } from '../types'
+import PpgPeakDetectionGrapher from '../../impl/PpgPeakDetectionGrapher'
+import { PpgPeakDetectorResults } from '../../types'
 
 export default class PpgPeakDetectionGrapherTest extends AbstractSpruceTest {
     private static grapher: PpgPeakDetectionGrapher
