@@ -49,6 +49,7 @@ export default class PpgPeakDetector {
 
         const filtered = this.filter.run(rawSignalWithoutFirstSample)
         const result = this.detector.run(filtered, timestampsWithoutFirstSample)
+
         return {
             ...result,
             rawSignal: rawSignalWithoutFirstSample,

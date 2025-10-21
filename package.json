@@ -1,8 +1,23 @@
 {
   "name": "@neurodevs/node-biometrics",
   "version": "0.4.1",
+  "description": "Analyze and visualize biometric data",
+  "keywords": [
+    "nodejs",
+    "typescript",
+    "tdd"
+  ],
+  "license": "MIT",
+  "author": "Eric Yates <hello@ericthecurious.com>",
+  "homepage": "https://github.com/neurodevs/node-biometrics",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neurodevs/node-biometrics.git"
+  },
+  "bugs": {
+    "url": "https://github.com/neurodevs/node-biometrics/issues"
+  },
   "main": "build/index.js",
-  "repository": "https://github.com/neurodevs/node-biometrics.git",
   "scripts": {
     "build.ci": "yarn run build.tsc && yarn run build.resolve-paths && yarn run lint",
     "build.dev": "yarn run build.tsc --sourceMap ; yarn run resolve-paths.lint",
@@ -26,6 +41,11 @@
     "watch.rebuild": "yarn run clean.all && yarn install && yarn run watch.build.dev",
     "watch.tsc": "tsc -w"
   },
+  "dependencies": {
+    "@neurodevs/node-server-plots": "^0.3.11",
+    "@neurodevs/node-signal-processing": "^3.0.3",
+    "fast-csv": "^5.0.2"
+  },
   "devDependencies": {
     "@sprucelabs/jest-json-reporter": "^8.0.542",
     "@sprucelabs/resolve-path-aliases": "^2.0.516",
@@ -43,10 +63,6 @@
     "ts-node": "^10.9.2",
     "tsc-watch": "^6.2.1",
     "typescript": "^5.6.3"
-  },
-  "description": "Analyze and visualize biometric data",
-  "skill": {
-    "namespace": "node-biometrics"
   },
   "jest": {
     "testRunner": "jest-circus/runner",
@@ -66,9 +82,7 @@
       "^#spruce/(.*)$": "<rootDir>/build/.spruce/$1"
     }
   },
-  "dependencies": {
-    "@neurodevs/node-server-plots": "^0.3.11",
-    "@neurodevs/node-signal-processing": "^3.0.3",
-    "fast-csv": "^5.0.2"
+  "skill": {
+    "namespace": "node-biometrics"
   }
 }
