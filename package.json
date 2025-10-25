@@ -1,6 +1,6 @@
 {
   "name": "@neurodevs/node-biometrics",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Analyze and visualize biometric data",
   "keywords": [
     "nodejs",
