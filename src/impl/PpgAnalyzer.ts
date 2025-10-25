@@ -1,4 +1,3 @@
-import { assertOptions } from '@sprucelabs/schema'
 import { DataPoint } from '@neurodevs/node-signal-processing'
 import {
     PpgAnalyzer,
@@ -16,8 +15,7 @@ export default class PpgAnalyzerImpl implements PpgAnalyzer {
     protected detector: PpgPeakDetector
 
     protected constructor(options: PpgAnalyzerOptions) {
-        const { sampleRate, ignoreRrIntervalThresholdPercent = 25 } =
-            assertOptions(options, ['sampleRate'])
+        const { sampleRate, ignoreRrIntervalThresholdPercent = 25 } = options
         this.sampleRate = sampleRate
 
         this.detector = PpgPeakDetector.Create({ sampleRate })

@@ -1,8 +1,4 @@
-import AbstractSpruceTest, {
-    test,
-    assert,
-    errorAssert,
-} from '@sprucelabs/test-utils'
+import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
 import PpgAnalyzerImpl from '../../impl/PpgAnalyzer'
 import PpgPeakDetectionGrapher, {
     PeakDetectionGrapher,
@@ -30,15 +26,6 @@ export default class PpgAnalyzerTest extends AbstractSpruceTest {
         this.analyzerOptions = this.generateRandomOptions()
         this.analyzer = this.PpgAnalyzer(this.analyzerOptions)
         this.grapher = this.PpgPeakDetectionGrapher()
-    }
-
-    @test()
-    protected static async throwsWithMissingRequiredOptions() {
-        // @ts-ignore
-        const err = assert.doesThrow(() => new PpgAnalyzerImpl())
-        errorAssert.assertError(err, 'MISSING_PARAMETERS', {
-            parameters: ['sampleRate'],
-        })
     }
 
     @test()

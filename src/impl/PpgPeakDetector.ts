@@ -1,4 +1,3 @@
-import { assertOptions } from '@sprucelabs/schema'
 import {
     HilbertPeakDetector,
     FirBandpassFilter,
@@ -26,7 +25,7 @@ export default class PpgPeakDetector implements PpgDetector {
             highCutoffHz = 4.0,
             numTaps,
             attenuation = 50,
-        } = assertOptions(options, ['sampleRate'])
+        } = options
 
         this.sampleRate = sampleRate
         this.lowCutoffHz = lowCutoffHz
