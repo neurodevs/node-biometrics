@@ -23,8 +23,10 @@ export default class PpgAnalyzerTest extends AbstractSpruceTest {
     protected static async beforeEach() {
         PpgAnalyzerImpl.DetectorClass = SpyPpgPeakDetector
 
+        PpgAnalyzerImpl.Class = SpyPpgAnalyzer
+
         this.analyzerOptions = this.generateRandomOptions()
-        this.analyzer = this.Analyzer(this.analyzerOptions)
+        this.analyzer = this.PpgAnalyzer(this.analyzerOptions)
         this.grapher = this.PpgPeakDetectionGrapher()
     }
 
@@ -40,7 +42,7 @@ export default class PpgAnalyzerTest extends AbstractSpruceTest {
     @test()
     protected static async constructorCanOverridePpgPeakDetector() {
         SpyPpgPeakDetector.clear()
-        new PpgAnalyzerImpl(this.analyzerOptions)
+        PpgAnalyzerImpl.Create(this.analyzerOptions)
         assert.isEqual(SpyPpgPeakDetector.constructorHitCount, 1)
     }
 
@@ -107,14 +109,13 @@ export default class PpgAnalyzerTest extends AbstractSpruceTest {
         return { sampleRate: 100 * Math.random() }
     }
 
-    private static Analyzer(
-        options?: Partial<PpgAnalyzerOptions>
-    ): SpyPpgAnalyzer {
+    private static PpgAnalyzer(options?: Partial<PpgAnalyzerOptions>) {
         const defaultOptions = this.generateRandomOptions()
-        return new SpyPpgAnalyzer({
+
+        return PpgAnalyzerImpl.Create({
             ...defaultOptions,
             ...options,
-        })
+        }) as SpyPpgAnalyzer
     }
 
     private static PpgPeakDetectionGrapher() {

@@ -5,17 +5,19 @@ import {
     PpgPeakDetectorClass,
     PpgAnalyzerOptions,
     PpgAnalyzerResults,
+    PpgAnalyzerClass,
 } from '../types'
 import PpgPeakDetector from './PpgPeakDetector'
 
 export default class PpgAnalyzerImpl implements PpgAnalyzer {
+    public static Class?: PpgAnalyzerClass
+    public static DetectorClass: PpgPeakDetectorClass = PpgPeakDetector
+
     protected sampleRate: number
     protected ignoreRrIntervalOverPercentDifferent: number
-
-    public static DetectorClass: PpgPeakDetectorClass = PpgPeakDetector
     protected detector: PpgPeakDetector
 
-    public constructor(options: PpgAnalyzerOptions) {
+    protected constructor(options: PpgAnalyzerOptions) {
         const { sampleRate, ignoreRrIntervalThresholdPercent = 25 } =
             assertOptions(options, ['sampleRate'])
         this.sampleRate = sampleRate
@@ -23,6 +25,10 @@ export default class PpgAnalyzerImpl implements PpgAnalyzer {
         this.detector = new PpgAnalyzerImpl.DetectorClass({ sampleRate })
         this.ignoreRrIntervalOverPercentDifferent =
             ignoreRrIntervalThresholdPercent
+    }
+
+    public static Create(options: PpgAnalyzerOptions) {
+        return new (this.Class ?? this)(options)
     }
 
     public run(signal: number[], timestamps: number[]): PpgAnalyzerResults {
