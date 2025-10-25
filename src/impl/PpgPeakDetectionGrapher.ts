@@ -1,19 +1,17 @@
-import {
-    Grapher,
-    SubplotGrapher,
-    SubplotGrapherClass,
-} from '@neurodevs/node-server-plots'
+import { Grapher, SubplotGrapher } from '@neurodevs/node-server-plots'
 import { PpgPeakDetectorResults } from '../types'
 
-export default class PpgPeakDetectionGrapher {
-    public static GrapherClass: SubplotGrapherClass = SubplotGrapher
+export default class PpgPeakDetectionGrapher implements PeakDetectionGrapher {
+    public static Class?: new () => PeakDetectionGrapher
+
     private grapher: Grapher
 
-    private static subplotHeight = 600
-    private static subplotWidth = 4000
+    protected constructor() {
+        this.grapher = PpgPeakDetectionGrapher.SubplotGrapher()
+    }
 
-    public constructor() {
-        this.grapher = PpgPeakDetectionGrapher.Grapher()
+    public static Create() {
+        return new (this.Class ?? this)()
     }
 
     public async run(savePath: string, signals: PpgPeakDetectorResults) {
@@ -22,13 +20,6 @@ export default class PpgPeakDetectionGrapher {
         await this.grapher.generate({
             savePath,
             plotConfigs: plotConfigs as any,
-        })
-    }
-
-    private static Grapher() {
-        return new PpgPeakDetectionGrapher.GrapherClass({
-            subplotHeight: PpgPeakDetectionGrapher.subplotHeight,
-            subplotWidth: PpgPeakDetectionGrapher.subplotWidth,
         })
     }
 
@@ -115,51 +106,33 @@ export default class PpgPeakDetectionGrapher {
             thresholdedSignal,
         } = signals
 
-        const formattedRawSignal = this.formatSignal(
-            rawSignal,
-            normalizedTimestamps
-        )
-        const formattedFilteredSignal = this.formatSignal(
-            filteredSignal,
-            normalizedTimestamps
-        )
-        const formattedUpperEnvelope = this.formatSignal(
-            upperEnvelope,
-            normalizedTimestamps
-        )
-        const formattedLowerEnvelope = this.formatSignal(
-            lowerEnvelope,
-            normalizedTimestamps
-        )
-        const formattedThresholdedSignal = this.formatSignal(
-            thresholdedSignal,
-            normalizedTimestamps
-        )
-
         return {
             rawDataset: {
                 label: 'Raw PPG Signal',
-                data: formattedRawSignal,
+                data: this.formatSignal(rawSignal, normalizedTimestamps),
                 color: 'cornflowerblue',
             },
             filteredDataset: {
                 label: 'Filtered PPG Signal',
-                data: formattedFilteredSignal,
+                data: this.formatSignal(filteredSignal, normalizedTimestamps),
                 color: 'cornflowerblue',
             },
             upperEnvelopeDataset: {
                 label: 'Upper Envelope',
-                data: formattedUpperEnvelope,
+                data: this.formatSignal(upperEnvelope, normalizedTimestamps),
                 color: 'forestgreen',
             },
             lowerEnvelopeDataset: {
                 label: 'Lower Envelope',
-                data: formattedLowerEnvelope,
+                data: this.formatSignal(lowerEnvelope, normalizedTimestamps),
                 color: 'goldenrod',
             },
             thresholdedDataset: {
                 label: 'Thresholded PPG Signal',
-                data: formattedThresholdedSignal,
+                data: this.formatSignal(
+                    thresholdedSignal,
+                    normalizedTimestamps
+                ),
                 color: 'salmon',
             },
         }
@@ -173,4 +146,18 @@ export default class PpgPeakDetectionGrapher {
             }
         })
     }
+
+    private static readonly subplotHeight = 600
+    private static readonly subplotWidth = 4000
+
+    private static SubplotGrapher() {
+        return SubplotGrapher.Create({
+            subplotHeight: this.subplotHeight,
+            subplotWidth: this.subplotWidth,
+        })
+    }
+}
+
+export interface PeakDetectionGrapher {
+    run(savePath: string, signals: PpgPeakDetectorResults): Promise<void>
 }

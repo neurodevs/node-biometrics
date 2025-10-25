@@ -42,7 +42,7 @@
     "watch.tsc": "tsc -w"
   },
   "dependencies": {
-    "@neurodevs/node-server-plots": "^0.3.11",
+    "@neurodevs/node-server-plots": "^0.4.2",
     "@neurodevs/node-signal-processing": "^3.0.3",
     "fast-csv": "^5.0.2"
   },

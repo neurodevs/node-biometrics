@@ -4,7 +4,9 @@ import AbstractSpruceTest, {
     errorAssert,
 } from '@sprucelabs/test-utils'
 import PpgAnalyzerImpl from '../../impl/PpgAnalyzer'
-import PpgPeakDetectionGrapher from '../../impl/PpgPeakDetectionGrapher'
+import PpgPeakDetectionGrapher, {
+    PeakDetectionGrapher,
+} from '../../impl/PpgPeakDetectionGrapher'
 import SpyPpgAnalyzer from '../../testDoubles/SpyPpgAnalyzer'
 import SpyPpgPeakDetector from '../../testDoubles/SpyPpgPeakDetector'
 import { PpgAnalyzerOptions } from '../../types'
@@ -14,7 +16,7 @@ import loadPpgData from '../testData/loadPpgData'
 export default class PpgAnalyzerTest extends AbstractSpruceTest {
     private static analyzer: SpyPpgAnalyzer
     private static analyzerOptions: PpgAnalyzerOptions
-    private static grapher: PpgPeakDetectionGrapher
+    private static grapher: PeakDetectionGrapher
 
     private static shouldSavePngs = true
 
@@ -23,7 +25,7 @@ export default class PpgAnalyzerTest extends AbstractSpruceTest {
 
         this.analyzerOptions = this.generateRandomOptions()
         this.analyzer = this.Analyzer(this.analyzerOptions)
-        this.grapher = this.Grapher()
+        this.grapher = this.PpgPeakDetectionGrapher()
     }
 
     @test()
@@ -115,7 +117,7 @@ export default class PpgAnalyzerTest extends AbstractSpruceTest {
         })
     }
 
-    private static Grapher() {
-        return new PpgPeakDetectionGrapher()
+    private static PpgPeakDetectionGrapher() {
+        return PpgPeakDetectionGrapher.Create()
     }
 }
