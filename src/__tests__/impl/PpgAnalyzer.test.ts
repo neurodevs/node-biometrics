@@ -7,6 +7,7 @@ import PpgAnalyzerImpl from '../../impl/PpgAnalyzer'
 import PpgPeakDetectionGrapher, {
     PeakDetectionGrapher,
 } from '../../impl/PpgPeakDetectionGrapher'
+import PpgPeakDetector from '../../impl/PpgPeakDetector'
 import SpyPpgAnalyzer from '../../testDoubles/SpyPpgAnalyzer'
 import SpyPpgPeakDetector from '../../testDoubles/SpyPpgPeakDetector'
 import { PpgAnalyzerOptions } from '../../types'
@@ -21,7 +22,8 @@ export default class PpgAnalyzerTest extends AbstractSpruceTest {
     private static shouldSavePngs = true
 
     protected static async beforeEach() {
-        PpgAnalyzerImpl.DetectorClass = SpyPpgPeakDetector
+        PpgPeakDetector.Class = SpyPpgPeakDetector
+        SpyPpgPeakDetector.resetTestDouble()
 
         PpgAnalyzerImpl.Class = SpyPpgAnalyzer
 
@@ -41,9 +43,9 @@ export default class PpgAnalyzerTest extends AbstractSpruceTest {
 
     @test()
     protected static async constructorCanOverridePpgPeakDetector() {
-        SpyPpgPeakDetector.clear()
+        SpyPpgPeakDetector.resetTestDouble()
         PpgAnalyzerImpl.Create(this.analyzerOptions)
-        assert.isEqual(SpyPpgPeakDetector.constructorHitCount, 1)
+        assert.isEqual(SpyPpgPeakDetector.callsToConstructor.length, 1)
     }
 
     @test()

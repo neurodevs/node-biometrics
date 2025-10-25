@@ -21,8 +21,10 @@ export default class PpgPeakDetectorTest extends AbstractSpruceTest {
     protected static async beforeEach() {
         FirBandpassFilter.Class = SpyFirBandpassFilter
 
+        PpgPeakDetector.Class = SpyPpgPeakDetector
+
         this.randomOptions = this.generateRandomOptions()
-        this.randomDetector = new SpyPpgPeakDetector(this.randomOptions)
+        this.randomDetector = this.PpgPeakDetector()
 
         this.rawData = [1, 2, 3, 4]
         this.timestamps = [4, 5, 6, 7]
@@ -31,7 +33,8 @@ export default class PpgPeakDetectorTest extends AbstractSpruceTest {
     @test()
     protected static async throwsWithMissingRequiredOptions() {
         // @ts-ignore
-        const err = assert.doesThrow(() => new PpgPeakDetector())
+        const err = assert.doesThrow(() => PpgPeakDetector.Create())
+
         errorAssert.assertError(err, 'MISSING_PARAMETERS', {
             parameters: ['sampleRate'],
         })
@@ -43,19 +46,25 @@ export default class PpgPeakDetectorTest extends AbstractSpruceTest {
         sampleRate: number,
         expectedNumTaps: number
     ) {
-        const detector = new SpyPpgPeakDetector({ sampleRate })
+        const detector = this.PpgPeakDetector({
+            sampleRate,
+            numTaps: undefined,
+        })
+
         assert.isEqual(detector.getNumTaps(), expectedNumTaps)
     }
 
     @test()
     protected static async runCallsDependenciesAsExpected() {
         this.run()
+
         assert.isEqual(SpyFirBandpassFilter.callsToRun.length, 1)
     }
 
     @test()
     protected static async runReturnsRawDataWithoutFirstSample() {
         const result = this.run()
+
         assert.isEqualDeep(result.rawSignal, this.rawData.slice(1))
         assert.isEqualDeep(result.timestamps, this.timestamps.slice(1))
     }
@@ -82,5 +91,12 @@ export default class PpgPeakDetectorTest extends AbstractSpruceTest {
             numTaps++
         }
         return numTaps
+    }
+
+    private static PpgPeakDetector(options?: Partial<PpgPeakDetectorOptions>) {
+        return PpgPeakDetector.Create({
+            ...this.randomOptions,
+            ...options,
+        }) as SpyPpgPeakDetector
     }
 }

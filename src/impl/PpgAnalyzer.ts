@@ -2,7 +2,6 @@ import { assertOptions } from '@sprucelabs/schema'
 import { DataPoint } from '@neurodevs/node-signal-processing'
 import {
     PpgAnalyzer,
-    PpgPeakDetectorClass,
     PpgAnalyzerOptions,
     PpgAnalyzerResults,
     PpgAnalyzerClass,
@@ -11,7 +10,6 @@ import PpgPeakDetector from './PpgPeakDetector'
 
 export default class PpgAnalyzerImpl implements PpgAnalyzer {
     public static Class?: PpgAnalyzerClass
-    public static DetectorClass: PpgPeakDetectorClass = PpgPeakDetector
 
     protected sampleRate: number
     protected ignoreRrIntervalOverPercentDifferent: number
@@ -22,7 +20,7 @@ export default class PpgAnalyzerImpl implements PpgAnalyzer {
             assertOptions(options, ['sampleRate'])
         this.sampleRate = sampleRate
 
-        this.detector = new PpgAnalyzerImpl.DetectorClass({ sampleRate })
+        this.detector = PpgPeakDetector.Create({ sampleRate })
         this.ignoreRrIntervalOverPercentDifferent =
             ignoreRrIntervalThresholdPercent
     }
