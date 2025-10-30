@@ -1,5 +1,5 @@
-import PpgPeakDetector from '../impl/PpgPeakDetector'
-import { PpgPeakDetectorOptions } from '../types'
+import PpgPeakDetector from '../impl/PpgPeakDetector.js'
+import { PpgPeakDetectorOptions } from '../types.js'
 
 export default class SpyPpgPeakDetector extends PpgPeakDetector {
     public static callsToConstructor: PpgPeakDetectorOptions[] = []

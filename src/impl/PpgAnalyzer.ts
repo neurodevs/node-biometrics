@@ -1,11 +1,12 @@
 import { DataPoint } from '@neurodevs/node-signal-processing'
+
 import {
     PpgAnalyzer,
     PpgAnalyzerOptions,
     PpgAnalyzerResults,
     PpgAnalyzerClass,
-} from '../types'
-import PpgPeakDetector from './PpgPeakDetector'
+} from '../types.js'
+import PpgPeakDetector from './PpgPeakDetector.js'
 
 export default class PpgAnalyzerImpl implements PpgAnalyzer {
     public static Class?: PpgAnalyzerClass

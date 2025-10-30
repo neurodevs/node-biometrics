@@ -1,5 +1,5 @@
-import PpgAnalyzerImpl from '../impl/PpgAnalyzer'
-import { PpgAnalyzerOptions } from '../types'
+import PpgAnalyzerImpl from '../impl/PpgAnalyzer.js'
+import { PpgAnalyzerOptions } from '../types.js'
 
 export default class SpyPpgAnalyzer extends PpgAnalyzerImpl {
     public constructor(options: PpgAnalyzerOptions) {

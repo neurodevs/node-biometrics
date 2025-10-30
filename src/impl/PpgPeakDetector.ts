@@ -5,7 +5,8 @@ import {
     Filter,
     PeakDetectorResults,
 } from '@neurodevs/node-signal-processing'
-import { PpgPeakDetectorOptions } from '../types'
+
+import { PpgPeakDetectorOptions } from '../types.js'
 
 export default class PpgPeakDetector implements PpgDetector {
     public static Class?: PpgDetectorClass

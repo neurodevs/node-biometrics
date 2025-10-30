@@ -1,16 +1,17 @@
-import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
-import PpgAnalyzerImpl from '../../impl/PpgAnalyzer'
+import AbstractModuleTest, { test, assert } from '@neurodevs/node-tdd'
+
+import PpgAnalyzerImpl from '../../impl/PpgAnalyzer.js'
 import PpgPeakDetectionGrapher, {
     PeakDetectionGrapher,
-} from '../../impl/PpgPeakDetectionGrapher'
-import PpgPeakDetector from '../../impl/PpgPeakDetector'
-import SpyPpgAnalyzer from '../../testDoubles/SpyPpgAnalyzer'
-import SpyPpgPeakDetector from '../../testDoubles/SpyPpgPeakDetector'
-import { PpgAnalyzerOptions } from '../../types'
-import expectedOutput from '../testData/expectedOutput'
-import loadPpgData from '../testData/loadPpgData'
+} from '../../impl/PpgPeakDetectionGrapher.js'
+import PpgPeakDetector from '../../impl/PpgPeakDetector.js'
+import SpyPpgAnalyzer from '../../testDoubles/SpyPpgAnalyzer.js'
+import SpyPpgPeakDetector from '../../testDoubles/SpyPpgPeakDetector.js'
+import { PpgAnalyzerOptions } from '../../types.js'
+import expectedOutput from '../testData/expectedOutput.js'
+import loadPpgData from '../testData/loadPpgData.js'
 
-export default class PpgAnalyzerTest extends AbstractSpruceTest {
+export default class PpgAnalyzerTest extends AbstractModuleTest {
     private static analyzer: SpyPpgAnalyzer
     private static analyzerOptions: PpgAnalyzerOptions
     private static grapher: PeakDetectionGrapher

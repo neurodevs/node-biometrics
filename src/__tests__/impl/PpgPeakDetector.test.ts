@@ -1,14 +1,15 @@
 import { randomInt } from 'crypto'
-import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
 import {
     FirBandpassFilter,
     SpyFirBandpassFilter,
 } from '@neurodevs/node-signal-processing'
-import PpgPeakDetector from '../../impl/PpgPeakDetector'
-import SpyPpgPeakDetector from '../../testDoubles/SpyPpgPeakDetector'
-import { PpgPeakDetectorOptions } from '../../types'
+import AbstractModuleTest, { test, assert } from '@neurodevs/node-tdd'
 
-export default class PpgPeakDetectorTest extends AbstractSpruceTest {
+import PpgPeakDetector from '../../impl/PpgPeakDetector.js'
+import SpyPpgPeakDetector from '../../testDoubles/SpyPpgPeakDetector.js'
+import { PpgPeakDetectorOptions } from '../../types.js'
+
+export default class PpgPeakDetectorTest extends AbstractModuleTest {
     private static randomDetector: SpyPpgPeakDetector
     private static randomOptions: PpgPeakDetectorOptions
     private static rawData: number[]

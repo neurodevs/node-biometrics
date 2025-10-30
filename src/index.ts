@@ -1,22 +1,22 @@
 // Production code
 
-export { default as PpgAnalyzerImpl } from './impl/PpgAnalyzer'
-export * from './impl/PpgAnalyzer'
+export { default as PpgAnalyzerImpl } from './impl/PpgAnalyzer.js'
+export * from './impl/PpgAnalyzer.js'
 
-export { default as PpgPeakDetector } from './impl/PpgPeakDetector'
-export * from './impl/PpgPeakDetector'
+export { default as PpgPeakDetector } from './impl/PpgPeakDetector.js'
+export * from './impl/PpgPeakDetector.js'
 
-export { default as PpgPeakDetectionGrapher } from './impl/PpgPeakDetectionGrapher'
-export * from './impl/PpgPeakDetectionGrapher'
+export { default as PpgPeakDetectionGrapher } from './impl/PpgPeakDetectionGrapher.js'
+export * from './impl/PpgPeakDetectionGrapher.js'
 
 // Types
 
-export * from './types'
+export * from './types.js'
 
 // Test doubles
 
-export { default as SpyPpgAnalyzer } from './testDoubles/SpyPpgAnalyzer'
-export * from './testDoubles/SpyPpgAnalyzer'
+export { default as SpyPpgAnalyzer } from './testDoubles/SpyPpgAnalyzer.js'
+export * from './testDoubles/SpyPpgAnalyzer.js'
 
-export { default as SpyPpgPeakDetector } from './testDoubles/SpyPpgPeakDetector'
-export * from './testDoubles/SpyPpgPeakDetector'
+export { default as SpyPpgPeakDetector } from './testDoubles/SpyPpgPeakDetector.js'
+export * from './testDoubles/SpyPpgPeakDetector.js'

@@ -1,5 +1,6 @@
 import { Grapher, SubplotGrapher } from '@neurodevs/node-server-plots'
-import { PpgPeakDetectorResults } from '../types'
+
+import { PpgPeakDetectorResults } from '../types.js'
 
 export default class PpgPeakDetectionGrapher implements PeakDetectionGrapher {
     public static Class?: new () => PeakDetectionGrapher

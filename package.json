@@ -1,7 +1,8 @@
 {
   "name": "@neurodevs/node-biometrics",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Analyze and visualize biometric data",
+  "type": "module",
   "keywords": [
     "nodejs",
     "typescript",
@@ -42,11 +43,12 @@
     "watch.tsc": "tsc -w"
   },
   "dependencies": {
-    "@neurodevs/node-server-plots": "^0.4.2",
-    "@neurodevs/node-signal-processing": "^3.0.3"
+    "@neurodevs/node-server-plots": "^0.4.3",
+    "@neurodevs/node-signal-processing": "^3.0.5"
   },
   "devDependencies": {
-    "@neurodevs/generate-id": "^1.0.0",
+    "@neurodevs/generate-id": "^1.0.9",
+    "@neurodevs/node-tdd": "^0.2.2",
     "@sprucelabs/jest-json-reporter": "^8.0.542",
     "@sprucelabs/resolve-path-aliases": "^2.0.516",
     "@sprucelabs/spruce-test-fixtures": "^62.4.27",

@@ -1,15 +1,16 @@
-import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
 import generateId from '@neurodevs/generate-id'
 import {
     FakeSubplotGrapher,
     SubplotGrapher,
 } from '@neurodevs/node-server-plots'
+import AbstractModuleTest, { test, assert } from '@neurodevs/node-tdd'
+
 import PpgPeakDetectionGrapher, {
     PeakDetectionGrapher,
-} from '../../impl/PpgPeakDetectionGrapher'
-import { PpgPeakDetectorResults } from '../../types'
+} from '../../impl/PpgPeakDetectionGrapher.js'
+import { PpgPeakDetectorResults } from '../../types.js'
 
-export default class PpgPeakDetectionGrapherTest extends AbstractSpruceTest {
+export default class PpgPeakDetectionGrapherTest extends AbstractModuleTest {
     private static grapher: PeakDetectionGrapher
     private static savePath: string
     private static signals: PpgPeakDetectorResults
