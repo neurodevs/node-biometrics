@@ -3,13 +3,14 @@ import {
     FirBandpassFilter,
     SpyFirBandpassFilter,
 } from '@neurodevs/node-signal-processing'
-import AbstractModuleTest, { test, assert } from '@neurodevs/node-tdd'
+import { test, assert } from '@neurodevs/node-tdd'
 
 import PpgPeakDetector from '../../impl/PpgPeakDetector.js'
 import SpyPpgPeakDetector from '../../testDoubles/SpyPpgPeakDetector.js'
 import { PpgPeakDetectorOptions } from '../../types.js'
+import AbstractPackageTest from '../AbstractPackageTest.js'
 
-export default class PpgPeakDetectorTest extends AbstractModuleTest {
+export default class PpgPeakDetectorTest extends AbstractPackageTest {
     private static randomDetector: SpyPpgPeakDetector
     private static randomOptions: PpgPeakDetectorOptions
     private static rawData: number[]

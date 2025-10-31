@@ -3,14 +3,15 @@ import {
     FakeSubplotGrapher,
     SubplotGrapher,
 } from '@neurodevs/node-server-plots'
-import AbstractModuleTest, { test, assert } from '@neurodevs/node-tdd'
+import { test, assert } from '@neurodevs/node-tdd'
 
 import PpgPeakDetectionGrapher, {
     PeakDetectionGrapher,
 } from '../../impl/PpgPeakDetectionGrapher.js'
 import { PpgPeakDetectorResults } from '../../types.js'
+import AbstractPackageTest from '../AbstractPackageTest.js'
 
-export default class PpgPeakDetectionGrapherTest extends AbstractModuleTest {
+export default class PpgPeakDetectionGrapherTest extends AbstractPackageTest {
     private static grapher: PeakDetectionGrapher
     private static savePath: string
     private static signals: PpgPeakDetectorResults

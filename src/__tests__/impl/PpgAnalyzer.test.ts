@@ -1,4 +1,4 @@
-import AbstractModuleTest, { test, assert } from '@neurodevs/node-tdd'
+import { test, assert } from '@neurodevs/node-tdd'
 
 import PpgAnalyzerImpl from '../../impl/PpgAnalyzer.js'
 import PpgPeakDetectionGrapher, {
@@ -8,10 +8,11 @@ import PpgPeakDetector from '../../impl/PpgPeakDetector.js'
 import SpyPpgAnalyzer from '../../testDoubles/SpyPpgAnalyzer.js'
 import SpyPpgPeakDetector from '../../testDoubles/SpyPpgPeakDetector.js'
 import { PpgAnalyzerOptions } from '../../types.js'
+import AbstractPackageTest from '../AbstractPackageTest.js'
 import expectedOutput from '../testData/expectedOutput.js'
 import loadPpgData from '../testData/loadPpgData.js'
 
-export default class PpgAnalyzerTest extends AbstractModuleTest {
+export default class PpgAnalyzerTest extends AbstractPackageTest {
     private static analyzer: SpyPpgAnalyzer
     private static analyzerOptions: PpgAnalyzerOptions
     private static grapher: PeakDetectionGrapher
